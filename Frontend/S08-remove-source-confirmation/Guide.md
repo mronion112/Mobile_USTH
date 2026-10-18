@@ -27,7 +27,7 @@ DELETE /api/v1/sources/3
 }
 ```
 
-There is no deleted-source object in `data`. Use the immutable `id` and `name` passed from the tapped S06 card to show the dialog. On success remove/refresh the source list and show the message; do **not** remove article cards/bookmarks because backend only disables future fetching.
+There is no deleted-source object in `data`. Use the immutable `id` and `name` passed from the tapped S06 card to show the dialog. On success remove/refresh the source list and show the message; do **not** remove article cards/bookmarks because the external API only disables future fetching.
 
 If the source is already missing, error is:
 
@@ -43,6 +43,13 @@ If the source is already missing, error is:
 ```
 
 Close/reload the dialog/list safely for this stale-state case; never present raw `details` directly to the user.
+
+## DESIGN2 visual requirements
+
+- Use a centered level-3 dialog or a destructive bottom sheet with 20dp radius, white surface and ambient shadow.
+- Source name is Plus Jakarta Sans headline-sm; explanatory text uses Inter 14sp/22sp slate.
+- Cancel is a slate ghost button. Remove is an explicit error-red destructive action with white label and 44dp minimum height.
+- Destructive color is reserved only for confirmed removal; closing/back/cancel always remains neutral.
 
 ## Rules and done
 

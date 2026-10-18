@@ -53,6 +53,14 @@ UI mapping: category chip ← `data.category.name`; source/byline ← `data.sour
 
 After DELETE, update local detail state to `isBookmarked=false`; on API failure restore previous visual state.
 
+## DESIGN2 visual requirements
+
+- Use 16dp margins on `#F8FAFC`; top bar is minimal with back, share/utility and bookmark controls.
+- Category is a teal pill; title uses Plus Jakarta Sans 26sp/800 (mobile headline) with tight tracking; byline/time uses muted Inter metadata.
+- `imageUrl` hero is 16:9, 14dp radius and full content width. When null, reserve a soft card/media placeholder—do not leave a broken image icon.
+- Article summary/body uses Inter 16sp with generous 26sp line height in a white/card-subtle section. Use sky-blue `#0284C7` treatment for the original-link action.
+- Keep bookmark amber only for saved state; the rest of the screen remains editorial, quiet and high-contrast.
+
 ## Rules
 
 - Never claim the description is full article text. Show a small notice when RSS only contains a summary.

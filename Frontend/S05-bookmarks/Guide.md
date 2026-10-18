@@ -49,6 +49,13 @@ Exact successful delete response:
 
 For the category filter, `GET /api/v1/categories` returns `data: [{ "id": 9, "name": "Công nghệ", "slug": "cong-nghe" }]`; send only the selected numeric `id` as `categoryId`.
 
+## DESIGN2 visual requirements
+
+- The saved tab uses the same white compact article cards and slate canvas as Home, with amber bookmark icon only to signify a saved item.
+- Category filter is a pill/rounded selector; keep tap target 44dp minimum.
+- Empty state feels editorial and calm: centered muted bookmark icon, Plus Jakarta Sans message, Inter supporting copy and teal browse CTA.
+- Removing a bookmark should not cause the card layout to jump; use a short confirmation/snackbar then update list with 12–16dp rhythm retained.
+
 ## Rules
 
 - Removing a bookmark should update the current list deterministically; handle API failure by restoring/refreshing state.

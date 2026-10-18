@@ -8,13 +8,21 @@
 - Initialize one Android app module in Kotlin; configure base URL for emulator and physical device without committing secrets.
 - Establish navigation routes: Home, Category, Search, Bookmarks, RSS Sources and Article Detail.
 - Provide the mobile layout from mockups: top bar and four-item bottom navigation (Trang chủ, Khám phá, Đã lưu, Nguồn RSS).
-- Define API client, common response envelope, ViewModel/repository convention and error mapping.
-- Publish theme tokens: deep teal primary, pale teal chips, off-white background, rounded cards.
+- Define one direct REST API client, common response envelope, ViewModel/state-holder convention and error mapping.
+- Publish theme tokens from `DESIGN2.md`: Editorial Pulse teal/slate palette, Plus Jakarta Sans/Inter hierarchy, rounded cards and elevated surfaces.
 
 ## Handover
 
-- Feature owners receive navigation callbacks and shared `Article`, `Category`, `RSSSource` contract models.
+- Feature owners receive navigation callbacks and shared `Article`, `Category`, `RSSSource` API models.
 - Each feature exposes a route/screen only; App shell owns route registration and selected bottom-nav state.
+- The app-shell client is the only place that knows base URL, HTTP interceptors/auth headers and JSON converter. Screens call the client through their own ViewModel/state holder and render its response directly; there is no in-repo server layer.
+
+## DESIGN2 shell requirements
+
+- Canvas is `#F8FAFC`; top utility bar is white/lightly frosted and visually quiet.
+- Bottom bar is fixed, white, elevated and `64dp + safe-area`; destinations are Home, Explore, Bookmarks and RSS Sources.
+- Active nav uses teal; inactive icon/label uses `#94A3B8`. Labels use Plus Jakarta Sans 11sp/700.
+- Use 16dp mobile margins and preserve insets when a screen scrolls below the bottom bar.
 
 ## API response objects FE must publish
 
@@ -80,6 +88,6 @@ Repository maps `error.code` to user-facing Vietnamese copy. A screen must not a
 - [ ] App opens to Home and all navigation destinations are reachable with placeholder content.
 - [ ] Base URL works for both `10.0.2.2` emulator and configurable LAN device.
 - [ ] API errors map to one common user-safe message shape.
-- [ ] No business feature or RSS XML parser is placed here.
+- [ ] No RSS XML parser or server-side concern is placed here.
 
-Read [`../API_NOTES.md`](../API_NOTES.md) before defining Retrofit/Kotlin DTOs; it is the FE-side view of the shared API contract.
+Read [`../API_NOTES.md`](../API_NOTES.md) before defining Retrofit/Kotlin DTOs and [`../DESIGN2_IMPLEMENTATION.md`](../DESIGN2_IMPLEMENTATION.md) before defining theme/components.

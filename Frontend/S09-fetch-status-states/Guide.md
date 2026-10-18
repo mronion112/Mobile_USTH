@@ -6,7 +6,7 @@
 
 Define visual behavior for `ACTIVE`, `FETCHING`, `ERROR`, last-successful-fetch and retry. Also review loading/empty/error across S01–S08.
 
-## Backend contract
+## API status contract
 
 - Source fields: `status`, `lastFetchedAt`, `lastError`
 - `GET /api/v1/sources/{id}/status`
@@ -51,6 +51,13 @@ GET /api/v1/sources/3/status
 | `DISABLED` | any / any | Do not offer refresh; reload S06 because it should no longer list the source. |
 
 `lastFetchedAt=null` is normal immediately after adding a source. Never parse `lastError` as a status; use the explicit `status` enum.
+
+## DESIGN2 visual requirements
+
+- Status appears in a compact white source card, with dot/spinner and readable label—not a large alert panel.
+- Active uses green `#16A34A`, fetching uses teal spinner, error uses red `#DC2626`; warning/queued metadata may use amber `#D97706`.
+- “Thử lại” is a teal 44dp button or clear tertiary action; it must not look like a destructive/error button.
+- Loading skeletons use slate-100/200 shimmer blocks matching the real card’s 16dp radius and thumbnail geometry. Empty/error screens retain the same calm slate canvas and spacing.
 
 ## Required copy/behavior
 

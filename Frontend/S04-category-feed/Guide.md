@@ -40,9 +40,16 @@ GET /api/v1/categories/9/articles?page=0&size=20
 }
 ```
 
-The visible screen title comes from the selected `Category` object returned by `GET /categories`, not by parsing `slug`. Each card still reads its own `data[i].category` so a backend inconsistency is observable/testable.
+The visible screen title comes from the selected `Category` object returned by `GET /categories`, not by parsing `slug`. Each card still reads its own `data[i].category` so an external API inconsistency is observable/testable.
 
 `GET /categories` response is `{ success, message, data: [{ id, name, slug }], meta: null, timestamp }`. Bookmark POST returns the full Article item with `isBookmarked: true`; bookmark DELETE returns `{ success: true, data: null, ... }`. The category article response itself remains the source of all card fields (`imageUrl`, `link`, source and publication time).
+
+## DESIGN2 visual requirements
+
+- Make the selected category an editorial screen anchor using Plus Jakarta Sans 20sp/700, then a short muted subtitle or article count.
+- Category tabs are pill chips; preserve horizontal scroll and teal active state rather than wrapping into a cramped multi-line grid.
+- Reuse the S01 compact/featured ArticleCard untouched: same white surface, 16dp radius, thumbnail, metadata and image fallback.
+- Use the editorial slate canvas and 12–16dp card gaps; no separate visual theme for categories.
 
 ## Rules and done
 

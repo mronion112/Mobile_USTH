@@ -38,6 +38,14 @@ Use `title`, `description`, `imageUrl`, `source.name`, `category.name`, `publish
 - RSS `imageUrl`, `description` and `publishedAt` are nullable; components must remain usable with all three missing.
 - Follow the supplied PNGs: teal primary action, subtle card borders, whitespace and concise Vietnamese labels.
 
+## DESIGN2 implementation requirements
+
+- `ArticleCard` background is `#FFFFFF`, 16–20dp radius, 1dp `#E2E8F0` boundary and low ambient shadow on `#F8FAFC` canvas.
+- Featured article media is full-width 16:9 with 14dp radius; compact cards use a 72×72dp, 12dp-radius image on the right.
+- Headline uses Plus Jakarta Sans (16–18sp, 600–700); summary uses Inter 14sp/22sp; source/category/time uses Inter 12sp `#475569`.
+- Active chips/primary actions are `#0F766E` with white text; inactive chips/ghost controls are `#F1F5F9` with `#475569` text; all chips are pill-shaped.
+- Inputs/buttons are 12–14dp radius and at least 44dp high. Bookmark/trending may use amber `#D97706`, but not as a default action color.
+
 ## Done when
 
 - [ ] Component preview/sample covers image and no-image cards.

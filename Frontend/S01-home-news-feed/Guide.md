@@ -81,6 +81,14 @@ Use only `id` and `name` for filter UI. Do not show or request a source whose st
 
 The card keeps its existing `imageUrl`, `link` and metadata after a bookmark response; only bookmark state changes. Do not replace a card with a partial action response.
 
+## DESIGN2 visual requirements
+
+- Screen canvas `#F8FAFC`, 16dp horizontal margin and fixed Editorial Pulse bottom navigation.
+- Place a calm top utility bar, then 44dp rounded search entry and horizontally scrollable category pills. Active chip is `#0F766E`; inactive chip is `#F1F5F9`.
+- First/featured story is a white elevated card with 16:9 image, amber Trending badge only when data warrants it, bold Plus Jakarta Sans headline and two-line Inter summary.
+- Latest stories use compact white cards with text left and 72×72dp image right. A null `imageUrl` shows a subtle slate placeholder at the same size.
+- Use 12–16dp vertical rhythm; metadata is muted slate, never larger/more prominent than article title.
+
 ## States and events
 
 - Loading skeleton; empty CTA **Thêm nguồn RSS** → S06/S07; retry on error.

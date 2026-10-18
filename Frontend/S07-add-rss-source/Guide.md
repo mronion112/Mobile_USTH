@@ -107,10 +107,17 @@ Keep name, URL and selected category in the form. `DUPLICATE_SOURCE` is a distin
 
 Show `name`, retain the numeric `id` and send that value as `categoryId`; do not submit `slug` or category display name in the create request.
 
+## DESIGN2 visual requirements
+
+- Prefer a modal bottom sheet above S06: white level-3 surface, 20dp top corners, 16–20dp padding and dimmed canvas behind it.
+- Inputs are 44dp+, 12dp radius, slate subtle background; focus uses teal ring. Labels use Plus Jakarta Sans 12–14sp.
+- Validate and Add Source are teal primary actions. Cancel/close is a ghost action. A valid preview uses teal/green confirmation, while invalid state uses red text plus helpful body copy.
+- Keep detected feed preview in a soft white/slate card; category choices are horizontally scrollable pill chips.
+
 ## Rules
 
-- Validation is backend-owned; mobile only validates simple required/URL format for user feedback.
-- Validation failure shows the backend-safe reason and leaves entered data intact.
+- Feed validation is owned by the external API; mobile only validates simple required/URL format for user feedback.
+- Validation failure shows the API-safe reason and leaves entered data intact.
 - Never fetch/parse XML in Android.
 
 ## Done when

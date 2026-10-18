@@ -80,6 +80,13 @@ The server may return `202 Accepted` if fetch continues in background, or `200 O
 
 Replace the matching source by `id` in local list, then refresh/poll using S09 rules; never assume a refresh immediately added articles.
 
+## DESIGN2 visual requirements
+
+- Use white source cards with 16dp radius, subtle border/shadow and 16dp padding on the slate canvas.
+- Leading favicon/source icon is 36×36dp; feed name uses Plus Jakarta Sans 14sp/600, URL uses muted Inter caption and is visually truncated, not wrapped into a noisy block.
+- Status uses semantic dot + text: green `#16A34A` Active, teal spinner Fetching, red `#DC2626` Error. Never convey status by color alone.
+- “Thêm nguồn” is the 44–48dp teal primary action. Refresh/remove are compact ghost/icon controls with content descriptions.
+
 ## Rules
 
 - Delete means stop future fetches; the UI must not promise article deletion.

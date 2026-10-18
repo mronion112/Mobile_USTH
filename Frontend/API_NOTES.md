@@ -1,6 +1,6 @@
 # Kotlin Frontend API request & response notes
 
-This is the Android consumption view of the shared [API contract](../docs/api-contract.md). It tells FE owners what to model and what they may assume; it does not introduce a separate mobile API.
+This is the Android direct-consumption view of the [external API reference](../docs/api-contract.md). The app calls the REST API itself, unwraps JSON once in a shared API client and renders typed response data in the owning screen.
 
 ## Common Kotlin model shape
 
@@ -139,7 +139,7 @@ Bookmark, remove source and refresh requests have no body. Filters/pagination ar
 
 ## UI error and state mapping
 
-| Backend result | Kotlin repository result | UI behavior |
+| External API result | Kotlin repository result | UI behavior |
 | --- | --- | --- |
 | 2xx, empty `data` list | `Success(emptyList())` | Contextual empty state, not error |
 | 400/404/409/422 | Typed `ApiError` | Explain safely; preserve entered S07 form data |
@@ -147,4 +147,4 @@ Bookmark, remove source and refresh requests have no body. Filters/pagination ar
 | `status=FETCHING` | Valid `RssSource` | Disable duplicate refresh, show progress |
 | `status=ERROR` | Valid `RssSource` | Show last safe error and retry CTA |
 
-Do not show backend `details` verbatim if it may be technical; present approved Vietnamese copy by error code. FE never reads/parses RSS XML or assumes missing description/image/time has a value.
+Do not show external API `details` verbatim if it may be technical; present approved Vietnamese copy by error code. FE never reads/parses RSS XML or assumes missing description/image/time has a value.

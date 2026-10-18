@@ -1,27 +1,20 @@
-# Team workflow
+# Frontend workflow
 
 ## Branch và PR
 
-- Một branch theo feature: `feature/s01-home-feed`, `feature/b03-rss-parser`, `fix/b06-bookmark-state`.
-- Một PR chỉ nên làm một mục tiêu trong `Guide.md`; không gộp refactor lớn với thay đổi contract.
-- FE Lead review mọi PR Frontend. Backend owner của feature review thay đổi API/schema.
-- CI phải pass trước merge khi B08 đã được triển khai.
+- Một branch theo screen/UI: `feature/s01-home-feed`, `feature/s06-rss-sources`, `fix/article-image-fallback`.
+- Một PR chỉ hoàn thành một mục tiêu trong `Guide.md`; không gộp refactor lớn với thay đổi visual/API rendering.
+- FE Lead review navigation, shared components, API model/nullability và DESIGN2 compliance.
 
-## Contract-first handover
+## External API handover
 
-1. BE owner mở PR thay đổi `docs/api-contract.md`, kèm JSON success/error thật.
-2. FE Lead xác nhận nullable field, pagination và error behavior.
-3. Sau khi merge, FE thay mock repository bằng API repository; không tự đổi tên field ở mobile.
-
-## Database
-
-- Migration là append-only, có version và reviewer.
-- Không xóa source/article để sửa dữ liệu demo; test/seed dùng fixture có chủ đích.
-- `rssUrl` và dữ liệu RSS là external/untrusted input: validate trước khi fetch.
+1. Người phụ trách API ngoài cung cấp base URL, auth requirement và JSON response thật.
+2. FE owner cập nhật `docs/api-contract.md`, `Frontend/API_NOTES.md` và guide screen liên quan trước khi thay model.
+3. App gọi API trực tiếp qua client chung; response được map thành UI state ngay trong feature/ViewModel.
 
 ## Daily integration
 
-- G1: integrate B00/B01/B02 + app shell.
-- G2: integrate source flow S06–S09 with B03/B04/B07.
-- G3: integrate reader flow S01–S05 with B05/B06.
-- Before demo, each owner walks the acceptance boxes in their `Guide.md`.
+- G0/G1: App shell và shared editorial components.
+- G2: S06–S09 sources/status.
+- G3: S01–S05 reading/search/bookmarks.
+- Trước demo, từng owner đối chiếu acceptance boxes + DESIGN2 visual checklist trong Guide.

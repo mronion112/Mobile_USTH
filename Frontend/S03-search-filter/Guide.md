@@ -46,6 +46,13 @@ Categories and sources return the exact lightweight/filter objects documented in
 
 For this screen, `GET /categories` returns `data: [{ id, name, slug }]`; `GET /sources` returns `data: [{ id, name, rssUrl, category, status, lastFetchedAt, lastError, createdAt }]`. Only `id`/`name` are needed in selectors. Bookmark POST returns the full matching Article with `isBookmarked: true`; bookmark DELETE returns a successful envelope with `data: null`.
 
+## DESIGN2 visual requirements
+
+- Search field is 44dp, 12dp radius, `#F1F5F9`, leading search icon and teal 2dp focus ring on white background.
+- Filter chips/selectors remain horizontal and compact; use teal filled selection, never a dense form-like stack on mobile.
+- Render results as white compact cards, 16dp radius, title hierarchy and 72×72dp thumbnail behavior from shared components.
+- The result count is subdued Inter metadata; empty state has generous breathing space, muted illustration/icon and one ghost/primary recovery action.
+
 ## Rules
 
 - Debounce while typing or search explicitly on submit; do not send a request per keystroke without debounce.

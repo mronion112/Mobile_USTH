@@ -1,24 +1,24 @@
 ## Feature
 
-<!-- Ví dụ: Frontend/S03-search-filter hoặc Backend/B03-rss-ingestion -->
+<!-- Ví dụ: Frontend/S03-search-filter hoặc Frontend/00-shared-components -->
 
 ## Mục tiêu và phạm vi
 
 -
 
-## Contract / database impact
+## API / design impact
 
-- [ ] Không đổi API/schema
-- [ ] Đã cập nhật `docs/api-contract.md`
-- [ ] Đã thêm migration versioned
+- [ ] Không đổi API response mapping
+- [ ] Đã cập nhật `docs/api-contract.md` và `Frontend/API_NOTES.md`
+- [ ] Đã kiểm tra token/component theo `DESIGN2.md`
 
 <!-- Ghi N/A hoặc mô tả rõ nếu một ô không áp dụng. -->
 
 ## Kiểm thử
 
-- [ ] Unit / integration test phù hợp đã chạy
+- [ ] Unit/UI test phù hợp đã chạy
 - [ ] UI: loading, empty, error state đã kiểm tra (nếu có UI)
-- [ ] Không gọi RSS/Dân trí thật trong test tự động
+- [ ] Không gọi API production trong test tự động
 
 ## Handover
 

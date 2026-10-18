@@ -1,6 +1,6 @@
 # Frontend — Kotlin Android feature scaffold
 
-Frontend được chia theo S01–S09 để mỗi owner làm độc lập. Khi FE Lead tạo project Android (Compose hoặc XML sau G0), mỗi folder này map sang một package/module tương ứng; không cần đổi ID screen.
+Frontend được chia theo S01–S09 để mỗi owner làm độc lập. App Kotlin gọi REST API bên ngoài trực tiếp và render response trên màn hình; repository này không chứa server module. Khi FE Lead tạo project Android, mỗi folder map sang một package/module tương ứng; không cần đổi ID screen.
 
 ```text
 00-app-shell/             navigation, theme, DI/API bootstrap
@@ -16,6 +16,8 @@ S08-remove-source-confirmation/ Nguyễn Văn Đức
 S09-fetch-status-states/  FE Lead + từng owner
 ```
 
-Mỗi `Guide.md` định nghĩa UI, API dependency, event và definition of done. Các folder S01–S09 không được tạo Retrofit DTO riêng; dùng contract/model chung do `00-app-shell` công bố.
+Mỗi `Guide.md` định nghĩa UI, API dependency, event và definition of done. Các folder S01–S09 không được tạo DTO riêng; dùng direct API client/model chung do `00-app-shell` công bố.
 
 Kotlin-side request/response mapping và screen → endpoint: [API_NOTES.md](API_NOTES.md).
+
+Thiết kế bắt buộc: [DESIGN2_IMPLEMENTATION.md](DESIGN2_IMPLEMENTATION.md), chuyển đổi trực tiếp từ [DESIGN2.md](../DESIGN2.md).

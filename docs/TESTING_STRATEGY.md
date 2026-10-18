@@ -1,10 +1,7 @@
-# Testing strategy
+# Frontend testing strategy
 
-Áp dụng các quy tắc phù hợp từ Web_USTH cho RSS Reader:
-
-- Unit test: parser RSS/Atom, URL validation/SSRF, normalization, dedupe, mapper và filter specification.
-- Integration test: controller + database test; mock HTTP RSS server, không gọi Dân trí thật trong CI.
-- UI test: từng S01–S09 có success/loading/empty/error, bookmark toggle, remove confirmation và original-link intent.
-- Demo data không được dùng làm assertion duy nhất; fixture chỉ tạo khác biệt của case test.
-- Test source fail không được ngắt scheduler của source còn lại.
-- Mỗi feature cập nhật test case/chưa test trong `Guide.md` của chính nó.
+- UI/unit test cho từng S01–S09: success, loading, empty, error, retry, null `imageUrl`, null description/date và direct API failure.
+- Fake/mock HTTP client tạo JSON response đúng `Frontend/API_NOTES.md`; không gọi Dân trí/API production trong test tự động.
+- Test interaction: category/source filters, bookmark toggle, remove confirmation, add/validate source, refresh status và original-link intent.
+- Visual QA: screenshot 360–480dp đối chiếu `DESIGN2.md`; kiểm tra color role, readable contrast, card radius, typography hierarchy, touch target >=44dp và bottom navigation safe area.
+- Mỗi feature cập nhật case đã test/chưa test trong Guide của chính nó.
