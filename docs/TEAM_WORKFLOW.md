@@ -9,7 +9,7 @@
 ## External API handover
 
 1. Người phụ trách API ngoài cung cấp base URL, auth requirement và JSON response thật.
-2. FE owner cập nhật `docs/api-contract.md`, `Frontend/API_NOTES.md` và guide screen liên quan trước khi thay model.
+2. FE owner cập nhật `docs/api-contract.md`, `src/API_NOTES.md` và guide screen liên quan trước khi thay model.
 3. App gọi API trực tiếp qua client chung; response được map thành UI state ngay trong feature/ViewModel.
 
 ## Daily integration
