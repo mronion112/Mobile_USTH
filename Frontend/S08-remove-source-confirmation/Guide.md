@@ -1,6 +1,6 @@
 # S08 — Remove RSS Source Confirmation
 
-**Owner:** Nguyễn Văn Đức  
+**Owner:** Nguyễn Hoàng Anh  
 **Visual reference:** [Remove Confirmation.png](../../Remove%20Confirmation.png)
 
 ## Scope

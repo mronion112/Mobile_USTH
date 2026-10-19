@@ -1,6 +1,6 @@
 # S09 — Fetch status, empty and error states
 
-**Owner:** FE Lead defines shared pattern; every screen owner applies it.
+**Owner:** Nguyễn Hoàng Minh
 
 ## Scope
 

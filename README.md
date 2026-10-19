@@ -13,6 +13,7 @@
 ## Nguồn thiết kế và dữ liệu
 
 - [DESIGN2.md](DESIGN2.md) là nguồn đúng cho màu, typography, spacing, elevation và component style.
+- [Vietnam News — product demo](https://stitch.withgoogle.com/preview/5420956129683526122?node-id=5e5e9a12953f49129d1ef8c1987b4ed8) là reference chính cho layout, nhịp tương tác và cảm giác sản phẩm khi build UI.
 - App tự gọi REST API được nhóm chọn. Endpoint/payload hiện có ở [API reference](docs/api-contract.md); khi API ngoài thay đổi, cập nhật tài liệu FE cùng PR.
 - Mỗi screen render trực tiếp từ API response qua client/ViewModel của app. Không parse RSS XML trong mobile và không tạo server layer giả trong repository.
 
@@ -23,12 +24,20 @@
 3. Mỗi người code một S-folder/PR, dùng component và model chung, không copy UI hay DTO.
 4. Đối chiếu state loading, empty, error, null image/link với `Guide.md` của screen trước khi handover.
 
-## Screen ownership
+## Phân công cuối cùng theo screen
 
-| Nhóm | Folder chính | Người phụ trách theo kế hoạch |
-| --- | --- | --- |
-| Home & Category | `Frontend/S01-*`, `Frontend/S04-*` | Nguyễn Tiến Đạt |
-| Detail & RSS Sources | `Frontend/S02-*`, `Frontend/S06-*`–`S09-*` | Nguyễn Văn Đức |
-| Search & Bookmarks | `Frontend/S03-*`, `Frontend/S05-*` | Nguyễn Thị Mai Linh |
+| ID | Screen | Owner | Folder |
+| --- | --- | --- | --- |
+| S01 | Home News Feed | Nguyễn Tiến Đạt | `Frontend/S01-home-news-feed` |
+| S02 | Article Detail | Nguyễn Văn Đức | `Frontend/S02-article-detail` |
+| S03 | Search & Filter | Nguyễn Thị Mai Linh | `Frontend/S03-search-filter` |
+| S04 | Category Feed | Nguyễn Tiến Đạt | `Frontend/S04-category-feed` |
+| S05 | Bookmarks | Nguyễn Thị Mai Linh | `Frontend/S05-bookmarks` |
+| S06 | RSS Sources | Nguyễn Hoàng Anh | `Frontend/S06-rss-sources` |
+| S07 | Add RSS Source | Vũ Minh Hoàng | `Frontend/S07-add-rss-source` |
+| S08 | Remove Confirmation | Nguyễn Hoàng Anh | `Frontend/S08-remove-source-confirmation` |
+| S09 | Fetch / Empty / Error State | Nguyễn Hoàng Minh | `Frontend/S09-fetch-status-states` |
+
+**Nguyễn Quang Vũ Hoàng** phụ trách cố định CI/CD GitHub, không nhận task screen.
 
 Request/response, Kotlin nullable mapping và từng endpoint: [Frontend API notes](Frontend/API_NOTES.md).
