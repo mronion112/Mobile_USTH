@@ -6,10 +6,9 @@
 
 -
 
-## API / design impact
+## Data / design impact
 
-- [ ] Không đổi API response mapping
-- [ ] Đã cập nhật `docs/api-contract.md` và `Frontend/API_NOTES.md`
+- [ ] Không đổi model local dùng chung
 - [ ] Đã kiểm tra token/component theo `DESIGN2.md`
 
 <!-- Ghi N/A hoặc mô tả rõ nếu một ô không áp dụng. -->
@@ -18,10 +17,10 @@
 
 - [ ] Unit/UI test phù hợp đã chạy
 - [ ] UI: loading, empty, error state đã kiểm tra (nếu có UI)
-- [ ] Không gọi API production trong test tự động
+- [ ] Không gọi feed production trong test tự động
 
 ## Handover
 
-- [ ] Đã cập nhật `Guide.md` của feature với endpoint/behavior/test thật
+- [ ] Đã cập nhật `Guide.md` của feature với behavior/test thật
 - [ ] Đã đính screenshot nếu thay đổi màn S01–S09
 - [ ] Có ghi dependency hoặc việc còn lại cho feature kế tiếp

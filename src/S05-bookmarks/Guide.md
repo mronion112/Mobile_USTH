@@ -6,23 +6,19 @@
 
 Display saved articles, optional category filter, open detail and allow removal of a bookmark. Match the **Đã lưu** bottom tab shown in the mockups.
 
-## API dependency
+## Data dependency
 
-- `GET /api/v1/bookmarks?page=0&size=20&categoryId?`
-- `DELETE /api/v1/bookmarks/{articleId}`
-- `GET /api/v1/categories`
+- Local bookmarked-article query, optional `categoryId` filter, paged.
+- Local bookmark removal, restoring the flag to `false`.
+- Local `Category` list for the filter.
 
-## API response used by S05
+## Local model used by S05
 
-```http
-GET /api/v1/bookmarks?page=0&size=20&categoryId=9
-```
+Bookmarked articles with `categoryId=9`, page 0:
 
 ```json
 {
-  "success": true,
-  "message": "OK",
-  "data": [{
+  "items": [{
     "id": 1024,
     "title": "Bài đã lưu để đọc sau",
     "description": "Tóm tắt RSS.",
@@ -34,20 +30,15 @@ GET /api/v1/bookmarks?page=0&size=20&categoryId=9
     "category": { "id": 9, "name": "Công nghệ", "slug": "cong-nghe" },
     "isBookmarked": true
   }],
-  "meta": { "page": 0, "size": 20, "totalElements": 1, "totalPages": 1 },
-  "timestamp": "2026-10-17T10:25:00Z"
+  "page": 0,
+  "totalElements": 1,
+  "totalPages": 1
 }
 ```
 
-Every returned row should have `isBookmarked=true`. Render image/title/source/category/time exactly as the shared ArticleCard. After `DELETE /api/v1/bookmarks/{articleId}`, expect `data: null`; remove that item from the current list only after success, or reload the list after failure.
+Every returned row should have `isBookmarked=true`. Render image/title/source/category/time exactly as the shared ArticleCard. After removing a bookmark, the row stores `isBookmarked=false`; remove that item from the current list only after the store confirms, or reload the list after failure.
 
-Exact successful delete response:
-
-```json
-{ "success": true, "message": "Đã bỏ lưu bài viết", "data": null, "meta": null, "timestamp": "2026-10-17T10:26:00Z" }
-```
-
-For the category filter, `GET /api/v1/categories` returns `data: [{ "id": 9, "name": "Công nghệ", "slug": "cong-nghe" }]`; send only the selected numeric `id` as `categoryId`.
+For the category filter, the stored category list holds `{ "id": 9, "name": "Công nghệ", "slug": "cong-nghe" }`; filter by the selected numeric `id`.
 
 ## DESIGN2 visual requirements
 
@@ -58,7 +49,7 @@ For the category filter, `GET /api/v1/categories` returns `data: [{ "id": 9, "na
 
 ## Rules
 
-- Removing a bookmark should update the current list deterministically; handle API failure by restoring/refreshing state.
+- Removing a bookmark should update the current list deterministically; handle store failure by restoring/refreshing state.
 - Empty state CTA **Khám phá tin tức** opens S01 or S03.
 
 ## Done when
