@@ -2,19 +2,19 @@
 
 `../DESIGN2.md` is the visual source of truth. This file translates it into Android/Kotlin implementation rules; do not invent competing colors, spacing or card patterns per screen.
 
-## Direct API → UI flow
+## On-device RSS → local store → UI flow
 
 ```text
-External REST API
-      ↓ JSON ApiEnvelope<T>
-Shared API client
-      ↓ typed nullable DTO
+RSS/Atom feeds (user-subscribed URLs)
+      ↓ HTTP fetch + XML parse on device
+Local store (Room): RssSource, Article, Category, bookmark flag
+      ↓ typed nullable model
 Screen ViewModel / state holder
       ↓ Loading | Content | Empty | Error
 Compose/XML screen renders Editorial Pulse component
 ```
 
-The mobile app calls the external API directly. It never parses RSS XML and does not depend on any server module in this repository. Keep API response fields intact until the ViewModel maps them to display values: `imageUrl` → image request, `link` → original-browser intent, `publishedAt` → relative time, and `null` → safe UI fallback.
+The mobile app has no backend and no network API layer. It fetches subscribed RSS/Atom feeds directly on device, persists items locally, and renders from the local store. There is no server module in this repository. Keep stored fields intact until the ViewModel maps them to display values: `imageUrl` → image request, `link` → original-browser intent, `publishedAt` → relative time, and `null` → safe UI fallback.
 
 ## Color tokens
 

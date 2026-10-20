@@ -4,13 +4,13 @@
 
 - Một branch theo screen/UI: `feature/s01-home-feed`, `feature/s06-rss-sources`, `fix/article-image-fallback`.
 - Một PR chỉ hoàn thành một mục tiêu trong `Guide.md`; không gộp refactor lớn với thay đổi visual/API rendering.
-- FE Lead review navigation, shared components, API model/nullability và DESIGN2 compliance.
+- FE Lead review navigation, shared components, local model/nullability và DESIGN2 compliance.
 
-## External API handover
+## Data handover
 
-1. Người phụ trách API ngoài cung cấp base URL, auth requirement và JSON response thật.
-2. FE owner cập nhật `docs/api-contract.md`, `src/API_NOTES.md` và guide screen liên quan trước khi thay model.
-3. App gọi API trực tiếp qua client chung; response được map thành UI state ngay trong feature/ViewModel.
+1. Nhóm chốt danh sách RSS feed mẫu, model local dùng chung và quy tắc fetch nền.
+2. FE owner cập nhật guide screen liên quan trước khi thay model.
+3. App fetch feed trực tiếp trên thiết bị qua fetcher chung; dữ liệu được map thành UI state ngay trong feature/ViewModel.
 
 ## Daily integration
 

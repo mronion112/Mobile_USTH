@@ -1,0 +1,66 @@
+name: cd
+
+on:
+  workflow_dispatch:
+    inputs:
+      variant:
+        description: Build variant
+        type: choice
+        default: debug
+        options: [debug, release]
+      upload:
+        description: Upload APK/AAB artifact
+        type: boolean
+        default: true
+  push:
+    tags: ["v*"]
+
+concurrency:
+  group: cd-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-artifact:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - id: gradle
+        name: Detect Gradle wrapper
+        run: |
+          if [ -f gradlew ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.gradle.outputs.present == 'true'
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - if: steps.gradle.outputs.present == 'true'
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml') }}
+          restore-keys: gradle-${{ runner.os }}-
+      - if: steps.gradle.outputs.present == 'true'
+        name: Assemble frontend artifact
+        run: |
+          chmod +x gradlew
+          if [ "${{ inputs.variant }}" = "release" ]; then
+            ./gradlew --no-daemon assembleRelease bundleRelease
+          else
+            ./gradlew --no-daemon assembleDebug
+          fi
+      - if: steps.gradle.outputs.present != 'true'
+        run: echo "No Gradle wrapper yet; nothing to assemble (scaffold phase)."
+      - if: steps.gradle.outputs.present == 'true' && (inputs.upload != false || startsWith(github.ref, 'refs/tags/v'))
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-${{ inputs.variant || 'tag' }}
+          path: |
+            **/build/outputs/apk/**/*.apk
+            **/build/outputs/bundle/**/*.aab
+          if-no-files-found: error

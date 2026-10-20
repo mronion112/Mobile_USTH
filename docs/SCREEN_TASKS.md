@@ -14,4 +14,4 @@
 
 **Nguyễn Quang Vũ Hoàng** phụ trách cố định CI/CD GitHub, không nhận task screen.
 
-Visual reference: [Vietnam News demo](https://stitch.withgoogle.com/preview/5420956129683526122?node-id=5e5e9a12953f49129d1ef8c1987b4ed8), [DESIGN2.md](../DESIGN2.md) và các mockup PNG ở root. Open the matching `Guide.md` before implementation; `docs/api-contract.md` is the direct API data reference.
+Visual reference: [Vietnam News demo](https://stitch.withgoogle.com/preview/5420956129683526122?node-id=5e5e9a12953f49129d1ef8c1987b4ed8), [DESIGN2.md](../DESIGN2.md) và các mockup PNG ở root. Open the matching `Guide.md` before implementation; local model dùng chung do `00-app-shell` công bố.

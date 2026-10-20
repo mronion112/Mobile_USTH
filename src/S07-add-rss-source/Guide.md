@@ -7,46 +7,34 @@
 
 Implement the add-source form/bottom sheet: name, URL, Validate action, detected feed preview, category selection, Save and cancel. It returns to S06 after successful initial fetch request.
 
-## API dependency
+## Data dependency
 
-- `POST /api/v1/sources/validate` body `{ "rssUrl": "..." }`
-- `POST /api/v1/sources` body `{ "name":"...", "rssUrl":"...", "categoryId":2 }`
-- `GET /api/v1/categories`
+- On-device feed validation: fetch the entered URL and parse its RSS/Atom XML.
+- Local source creation with `{ name, rssUrl, categoryId }`.
+- Local `Category` list for manual selection.
 
-## API responses used by S07
+## Local models used by S07
 
 ### 1. Validate RSS URL
 
-```http
-POST /api/v1/sources/validate
-Content-Type: application/json
-
-{ "rssUrl": "https://dantri.com.vn/rss/the-gioi.rss" }
-```
+Input: `{ "rssUrl": "https://dantri.com.vn/rss/the-gioi.rss" }`. The app fetches the URL on device and parses the feed. Preview result:
 
 ```json
 {
-  "success": true,
-  "message": "RSS feed hợp lệ",
-  "data": {
-    "valid": true,
-    "detectedTitle": "Dân trí - Thế giới",
-    "detectedSiteName": "Dân trí",
-    "suggestedCategory": { "id": 2, "name": "Thế giới", "slug": "the-gioi" }
-  },
-  "meta": null,
-  "timestamp": "2026-10-17T10:25:00Z"
+  "valid": true,
+  "detectedTitle": "Dân trí - Thế giới",
+  "detectedSiteName": "Dân trí",
+  "suggestedCategory": { "id": 2, "name": "Thế giới", "slug": "the-gioi" }
 }
 ```
 
-Display `detectedTitle` and `detectedSiteName` in the preview. Preselect `suggestedCategory.id` when non-null; it is a suggestion, so the user may choose any ID returned by `GET /api/v1/categories`. Do not save until this response has `success=true` and `data.valid=true`.
+Display `detectedTitle` and `detectedSiteName` in the preview. Preselect `suggestedCategory.id` when non-null; it is a suggestion, so the user may choose any stored category. Do not save until validation reports `valid=true`.
 
 ### 2. Create source and initial fetch request
 
-```http
-POST /api/v1/sources
-Content-Type: application/json
+Input:
 
+```json
 {
   "name": "Dân trí — Thế giới",
   "rssUrl": "https://dantri.com.vn/rss/the-gioi.rss",
@@ -54,37 +42,29 @@ Content-Type: application/json
 }
 ```
 
+Stored result:
+
 ```json
 {
-  "success": true,
-  "message": "Đã thêm RSS source",
-  "data": {
-    "id": 5,
-    "name": "Dân trí — Thế giới",
-    "rssUrl": "https://dantri.com.vn/rss/the-gioi.rss",
-    "category": { "id": 2, "name": "Thế giới", "slug": "the-gioi" },
-    "status": "FETCHING",
-    "lastFetchedAt": null,
-    "lastError": null,
-    "createdAt": "2026-10-17T10:26:00Z"
-  },
-  "meta": null,
-  "timestamp": "2026-10-17T10:26:00Z"
+  "id": 5,
+  "name": "Dân trí — Thế giới",
+  "rssUrl": "https://dantri.com.vn/rss/the-gioi.rss",
+  "category": { "id": 2, "name": "Thế giới", "slug": "the-gioi" },
+  "status": "FETCHING",
+  "lastFetchedAt": null,
+  "lastError": null,
+  "createdAt": "2026-10-17T10:26:00Z"
 }
 ```
 
-After success, close form and insert/reload S06 with `data`. `status=FETCHING` is a normal first-fetch state, not a validation error.
+After success, close form and insert/reload S06 with the stored source. `status=FETCHING` is a normal first-fetch state, not a validation error.
 
-### Validate/create error response
+### Validate/create error result
 
 ```json
 {
-  "success": false,
-  "message": "RSS URL không hợp lệ hoặc không thể truy cập",
-  "data": null,
-  "meta": null,
-  "error": { "code": "RSS_FEED_INVALID", "details": "URL phải trỏ đến RSS/Atom feed công khai." },
-  "timestamp": "2026-10-17T10:25:00Z"
+  "code": "RSS_FEED_INVALID",
+  "message": "RSS URL không hợp lệ hoặc không thể truy cập"
 }
 ```
 
@@ -93,19 +73,13 @@ Keep name, URL and selected category in the form. `DUPLICATE_SOURCE` is a distin
 ### 3. Categories for manual selection
 
 ```json
-{
-  "success": true,
-  "message": "OK",
-  "data": [
-    { "id": 2, "name": "Thế giới", "slug": "the-gioi" },
-    { "id": 9, "name": "Công nghệ", "slug": "cong-nghe" }
-  ],
-  "meta": null,
-  "timestamp": "2026-10-17T10:25:00Z"
-}
+[
+  { "id": 2, "name": "Thế giới", "slug": "the-gioi" },
+  { "id": 9, "name": "Công nghệ", "slug": "cong-nghe" }
+]
 ```
 
-Show `name`, retain the numeric `id` and send that value as `categoryId`; do not submit `slug` or category display name in the create request.
+Show `name`, retain the numeric `id` and submit that value as `categoryId`; do not submit `slug` or category display name in the create request.
 
 ## DESIGN2 visual requirements
 
@@ -116,9 +90,9 @@ Show `name`, retain the numeric `id` and send that value as `categoryId`; do not
 
 ## Rules
 
-- Feed validation is owned by the external API; mobile only validates simple required/URL format for user feedback.
-- Validation failure shows the API-safe reason and leaves entered data intact.
-- Never fetch/parse XML in Android.
+- Feed validation runs on device by fetching and parsing the feed; mobile additionally validates simple required/URL format for fast user feedback.
+- Validation failure shows the safe reason and leaves entered data intact.
+- Never fetch feed content outside the app-shell fetcher; screens only read the local store.
 
 ## Done when
 

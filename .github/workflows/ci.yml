@@ -1,0 +1,72 @@
+name: ci
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  docs-validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check frontend guides and CI hygiene
+        run: python3 scripts/ci/check-docs.py
+
+  android-build:
+    needs: docs-validate
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: true
+      matrix:
+        task: [assembleDebug, testDebugUnitTest, lintDebug]
+    steps:
+      - uses: actions/checkout@v4
+      - id: gradle
+        name: Detect Gradle wrapper
+        run: |
+          if [ -f gradlew ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.gradle.outputs.present == 'true'
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - if: steps.gradle.outputs.present == 'true'
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml') }}
+          restore-keys: gradle-${{ runner.os }}-
+      - if: steps.gradle.outputs.present == 'true'
+        name: Run ${{ matrix.task }}
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon ${{ matrix.task }}
+      - if: steps.gradle.outputs.present != 'true'
+        run: echo "No Gradle wrapper yet; skipping Android build (scaffold phase)."
+
+  security-scan:
+    needs: docs-validate
+    runs-on: ubuntu-24.04
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

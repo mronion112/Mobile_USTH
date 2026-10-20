@@ -7,23 +7,19 @@
 
 Show the selected Dân trí category, newest-first list and category switching from side/chip navigation. Reuse article list/card; this is not a copied Home feed.
 
-## API dependency
+## Data dependency
 
-- `GET /api/v1/categories/{categoryId}/articles?page=0&size=20`
-- `GET /api/v1/categories`
-- `POST /api/v1/bookmarks/{articleId}` / `DELETE /api/v1/bookmarks/{articleId}`
+- Local article query by `categoryId`, newest-first, paged.
+- Local `Category` list for the header and tab switching.
+- Local bookmark flag toggle on a card.
 
-## API response used by S04
+## Local model used by S04
 
-```http
-GET /api/v1/categories/9/articles?page=0&size=20
-```
+Category `id=9`, page 0:
 
 ```json
 {
-  "success": true,
-  "message": "OK",
-  "data": [{
+  "items": [{
     "id": 1024,
     "title": "Tin mới nhất về công nghệ",
     "description": "Mô tả RSS.",
@@ -35,14 +31,15 @@ GET /api/v1/categories/9/articles?page=0&size=20
     "category": { "id": 9, "name": "Công nghệ", "slug": "cong-nghe" },
     "isBookmarked": false
   }],
-  "meta": { "page": 0, "size": 20, "totalElements": 8, "totalPages": 1 },
-  "timestamp": "2026-10-17T10:25:00Z"
+  "page": 0,
+  "totalElements": 8,
+  "totalPages": 1
 }
 ```
 
-The visible screen title comes from the selected `Category` object returned by `GET /categories`, not by parsing `slug`. Each card still reads its own `data[i].category` so an external API inconsistency is observable/testable.
+The visible screen title comes from the selected stored `Category` object, not by parsing `slug`. Each card still reads its own `category` so a stored inconsistency is observable/testable.
 
-`GET /categories` response is `{ success, message, data: [{ id, name, slug }], meta: null, timestamp }`. Bookmark POST returns the full Article item with `isBookmarked: true`; bookmark DELETE returns `{ success: true, data: null, ... }`. The category article response itself remains the source of all card fields (`imageUrl`, `link`, source and publication time).
+The category list holds `{ id, name, slug }`. Bookmarking stores the full Article item with `isBookmarked: true`; unbookmarking stores it with `isBookmarked: false`. The category article query itself remains the source of all card fields (`imageUrl`, `link`, source and publication time).
 
 ## DESIGN2 visual requirements
 

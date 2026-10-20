@@ -5,17 +5,17 @@
 
 ## Responsibility
 
-- Initialize one Android app module in Kotlin; configure base URL for emulator and physical device without committing secrets.
+- Initialize one Android app module in Kotlin with a local store (Room) as the single source of truth; no backend, no remote service, no committed secrets.
 - Establish navigation routes: Home, Category, Search, Bookmarks, RSS Sources and Article Detail.
 - Provide the mobile layout from mockups: top bar and four-item bottom navigation (Trang chủ, Khám phá, Đã lưu, Nguồn RSS).
-- Define one direct REST API client, common response envelope, ViewModel/state-holder convention and error mapping.
+- Own the on-device RSS fetcher (HTTP + XML parser), the local repository, ViewModel/state-holder convention and error mapping.
 - Publish theme tokens from `DESIGN2.md`: Editorial Pulse teal/slate palette, Plus Jakarta Sans/Inter hierarchy, rounded cards and elevated surfaces.
 
 ## Handover
 
-- Feature owners receive navigation callbacks and shared `Article`, `Category`, `RSSSource` API models.
+- Feature owners receive navigation callbacks and shared `Article`, `Category`, `RSSSource` local models.
 - Each feature exposes a route/screen only; App shell owns route registration and selected bottom-nav state.
-- The app-shell client is the only place that knows base URL, HTTP interceptors/auth headers and JSON converter. Screens call the client through their own ViewModel/state holder and render its response directly; there is no in-repo server layer.
+- The app-shell fetcher is the only place that performs network I/O and feed parsing. Screens read their ViewModel/state holder, which renders local-store data directly; there is no in-repo server layer.
 
 ## DESIGN2 shell requirements
 
@@ -24,70 +24,54 @@
 - Active nav uses teal; inactive icon/label uses `#94A3B8`. Labels use Plus Jakarta Sans 11sp/700.
 - Use 16dp mobile margins and preserve insets when a screen scrolls below the bottom bar.
 
-## API response objects FE must publish
+## Local models FE must share
 
-All Retrofit/API calls return the same outer object. Feature screens only receive the unwrapped `data` plus pagination/error state from their repository.
+Feature screens receive plain repository models, never raw XML or network payloads.
 
-```json
-{
-  "success": true,
-  "message": "OK",
-  "data": {},
-  "meta": null,
-  "timestamp": "2026-10-17T10:25:00Z"
-}
-```
+```kotlin
+data class Category(val id: Long, val name: String, val slug: String)
+data class SourceRef(val id: Long, val name: String)
 
-For a list endpoint, `data` is an array and `meta` is present:
-
-```json
-{
-  "success": true,
-  "message": "OK",
-  "data": [],
-  "meta": { "page": 0, "size": 20, "totalElements": 0, "totalPages": 0 },
-  "timestamp": "2026-10-17T10:25:00Z"
-}
-```
-
-The Kotlin API/domain models must use these fields and nullability exactly:
-
-```text
-CategoryApi(id: Long, name: String, slug: String)
-SourceRefApi(id: Long, name: String)
-ArticleApi(
-  id: Long, title: String, description: String?, link: String,
-  imageUrl: String?, publishedAt: String?, fetchedAt: String,
-  source: SourceRefApi, category: CategoryApi, isBookmarked: Boolean
+data class Article(
+  val id: Long,
+  val title: String,
+  val description: String?,
+  val link: String,
+  val imageUrl: String?,
+  val publishedAt: String?,
+  val fetchedAt: String,
+  val source: SourceRef,
+  val category: Category,
+  val isBookmarked: Boolean,
 )
-RssSourceApi(
-  id: Long, name: String, rssUrl: String, category: CategoryApi,
-  status: String, lastFetchedAt: String?, lastError: String?, createdAt: String
+
+data class RssSource(
+  val id: Long,
+  val name: String,
+  val rssUrl: String,
+  val category: Category,
+  val status: String,
+  val lastFetchedAt: String?,
+  val lastError: String?,
+  val createdAt: String,
 )
 ```
 
 `imageUrl` is the remote thumbnail/hero image URL for Coil/Glide; when null, use a local placeholder. `link` is the original Dân trí URL and is opened only in S02. Do not construct either URL from title or source name.
 
-All non-2xx/business-error responses use this shape:
+All local fetch failures map to this shape:
 
-```json
-{
-  "success": false,
-  "message": "RSS URL không hợp lệ hoặc không thể truy cập",
-  "data": null,
-  "meta": null,
-  "error": { "code": "RSS_FEED_INVALID", "details": "URL phải trỏ đến RSS/Atom feed công khai." },
-  "timestamp": "2026-10-17T10:25:00Z"
-}
+```kotlin
+data class FetchError(val code: String, val message: String)
 ```
 
-Repository maps `error.code` to user-facing Vietnamese copy. A screen must not assume `data` exists when `success=false`.
+Known codes: `RSS_FEED_INVALID`, `RSS_FETCH_FAILED`, `DUPLICATE_SOURCE`, `RESOURCE_NOT_FOUND`, `INTERNAL_ERROR`. Repository maps each code to user-facing Vietnamese copy. A screen must not assume stored data exists when the fetch reports failure.
 
 ## Done when
 
 - [ ] App opens to Home and all navigation destinations are reachable with placeholder content.
-- [ ] Base URL works for both `10.0.2.2` emulator and configurable LAN device.
-- [ ] API errors map to one common user-safe message shape.
-- [ ] No RSS XML parser or server-side concern is placed here.
+- [ ] Subscribed feeds refresh on device (emulator and physical device) and persist locally.
+- [ ] Fetch errors map to one common user-safe message shape.
+- [ ] No server-side concern is placed here.
 
-Read [`../API_NOTES.md`](../API_NOTES.md) before defining Retrofit/Kotlin DTOs and [`../DESIGN2_IMPLEMENTATION.md`](../DESIGN2_IMPLEMENTATION.md) before defining theme/components.
+Read [`../DESIGN2_IMPLEMENTATION.md`](../DESIGN2_IMPLEMENTATION.md) before defining theme/components.

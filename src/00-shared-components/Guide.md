@@ -13,7 +13,7 @@
 
 ## Exact Article fields consumed by shared UI
 
-`ArticleCard` receives one already-unwrapped Article object:
+`ArticleCard` receives one repository-provided Article object:
 
 ```json
 {
