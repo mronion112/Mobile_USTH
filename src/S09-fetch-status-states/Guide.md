@@ -6,44 +6,36 @@
 
 Define visual behavior for `ACTIVE`, `FETCHING`, `ERROR`, last-successful-fetch and retry. Also review loading/empty/error across S01–S08.
 
-## API status contract
+## Status contract
 
 - Source fields: `status`, `lastFetchedAt`, `lastError`
-- `GET /api/v1/sources/{id}/status`
-- `POST /api/v1/sources/{id}/refresh`
+- Local status lookup for one source by `id`
+- On-device feed refresh for one source by `id`
 
-## API response used by S09
+## Local model used by S09
 
 ### Poll/check one source
 
-```http
-GET /api/v1/sources/3/status
-```
+Source `id=3`:
 
 ```json
 {
-  "success": true,
-  "message": "OK",
-  "data": {
-    "id": 3,
-    "name": "Dân trí — Công nghệ",
-    "rssUrl": "https://dantri.com.vn/rss/suc-manh-so.rss",
-    "category": { "id": 9, "name": "Công nghệ", "slug": "cong-nghe" },
-    "status": "ACTIVE",
-    "lastFetchedAt": "2026-10-17T10:25:00Z",
-    "lastError": null,
-    "createdAt": "2026-10-01T08:00:00Z"
-  },
-  "meta": null,
-  "timestamp": "2026-10-17T10:25:00Z"
+  "id": 3,
+  "name": "Dân trí — Công nghệ",
+  "rssUrl": "https://dantri.com.vn/rss/suc-manh-so.rss",
+  "category": { "id": 9, "name": "Công nghệ", "slug": "cong-nghe" },
+  "status": "ACTIVE",
+  "lastFetchedAt": "2026-10-17T10:25:00Z",
+  "lastError": null,
+  "createdAt": "2026-10-01T08:00:00Z"
 }
 ```
 
-`POST /api/v1/sources/3/refresh` has the same `data` object shape. The only fields required to render S09 are `status`, `lastFetchedAt` and `lastError`; retain the rest so S06 can display the same source without a second model.
+Refreshing source `id=3` produces the same stored object shape. The only fields required to render S09 are `status`, `lastFetchedAt` and `lastError`; retain the rest so S06 can display the same source without a second model.
 
 ### Exact status mapping
 
-| `data.status` | `lastFetchedAt` / `lastError` | FE behavior |
+| `status` | `lastFetchedAt` / `lastError` | FE behavior |
 | --- | --- | --- |
 | `ACTIVE` | timestamp / `null` | Display **Hoạt động** and relative last fetched time. |
 | `FETCHING` | prior timestamp may exist / `null` | Display progress; disable refresh/remove duplicate action. |

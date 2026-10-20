@@ -1,10 +1,10 @@
 # Thứ tự triển khai Frontend
 
-## G0 — Design + API client
+## G0 — Design + local store
 
-FE Lead chốt Jetpack Compose hoặc XML Views (khuyến nghị Compose), tạo base API URL, direct HTTP client, nullable DTOs và navigation shell. Áp dụng token trong `DESIGN2.md` trước khi tạo screen riêng.
+FE Lead chốt Jetpack Compose hoặc XML Views (khuyến nghị Compose), tạo local store (Room), on-device RSS fetcher, nullable model và navigation shell. Áp dụng token trong `DESIGN2.md` trước khi tạo screen riêng.
 
-**Bàn giao:** bottom navigation 4 tab, top utility bar, `ApiEnvelope<T>`, loading/error mapping, preview/mock response cho UI.
+**Bàn giao:** bottom navigation 4 tab, top utility bar, model local dùng chung, loading/error mapping, preview/mock dữ liệu cho UI.
 
 ## G1 — Shared editorial UI
 
@@ -14,11 +14,11 @@ Hoàn thành `src/00-shared-components`: featured/compact article card, chips, s
 
 ## G2 — Source operations
 
-S06–S09 gọi external API trực tiếp: source list, validate/create, remove, refresh/status. Render đúng `ACTIVE`, `FETCHING`, `ERROR` response và giữ input khi API lỗi.
+S06–S09 đọc/ghi local store kết hợp fetch feed trên thiết bị: source list, validate/create, remove, refresh/status. Render đúng `ACTIVE`, `FETCHING`, `ERROR` và giữ input khi fetch lỗi.
 
 ## G3 — Reading operations
 
-S01–S05 gọi API và render response: Home, Detail, Search, Category, Bookmarks. Link gốc mở browser intent; `imageUrl=null` hiển thị placeholder.
+S01–S05 đọc local store và render: Home, Detail, Search, Category, Bookmarks. Link gốc mở browser intent; `imageUrl=null` hiển thị placeholder.
 
 ## G4 — Visual QA and demo
 
