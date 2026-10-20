@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RSS News Reader</string>
+    <string name="nav_home">Trang chủ</string>
+    <string name="nav_explore">Khám Phá</string>
+    <string name="nav_saved">Đã Lưu</string>
+    <string name="nav_rss">RSS</string>
+</resources>

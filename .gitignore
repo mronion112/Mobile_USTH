@@ -1,5 +1,7 @@
 # Android / Gradle
 .gradle/
+.android/
+.tmp/
 **/build/
 local.properties
 .idea/
