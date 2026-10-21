@@ -68,7 +68,9 @@ jobs:
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
       - if: steps.gradle.outputs.present == 'true'
         name: Gradle ${{ matrix.tasks }}
-        run: ./gradlew --no-daemon --stacktrace ${{ matrix.tasks }}
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon --stacktrace ${{ matrix.tasks }}
       - if: steps.gradle.outputs.present != 'true'
         run: echo "No Gradle wrapper yet; skipping Android build."
       - if: failure() && steps.gradle.outputs.present == 'true'
