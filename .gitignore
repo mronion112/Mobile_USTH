@@ -11,7 +11,7 @@ local.properties
 
 # Java / Spring
 **/target/
-**/data/
+/data/
 *.log
 
 # Local configuration
