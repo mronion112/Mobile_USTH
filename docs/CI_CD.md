@@ -7,10 +7,14 @@ Frontend-only GitHub Actions pipelines. No backend jobs exist by design.
 | Workflow | Trigger | Jobs |
 | --- | --- | --- |
 | `ci.yml` | `pull_request` and `push` to `main` | `docs-validate` → `android-build`, `security-scan` |
-| `cd.yml` | `v*` tags and manual dispatch | `build-artifact` |
+| `cd.yml` | `push` to `main`, `v*` tags, manual dispatch | `build-artifact` |
 
 - `ci` watches `main` only. Feature branches are validated through the pull
   request that targets `main`.
+- `cd` publishes a debug APK for every push to `main` so developers can
+  install the current build. Tags build release APK/AAB with 90-day
+  retention; debug artifacts expire after 14 days. Artifact names carry the
+  commit SHA, or the tag name for releases.
 - `concurrency` cancels superseded `ci` runs and serializes `cd` runs.
 - `permissions` are read-only except pull-request metadata for gitleaks.
 - `docs-validate` runs `scripts/ci/check-docs.py` first; it fails on missing

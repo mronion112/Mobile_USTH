@@ -8,11 +8,8 @@ on:
         type: choice
         default: debug
         options: [debug, release]
-      upload:
-        description: Upload APK/AAB artifact
-        type: boolean
-        default: true
   push:
+    branches: [main]
     tags: ["v*"]
 
 concurrency:
@@ -26,7 +23,7 @@ jobs:
   build-artifact:
     runs-on: ubuntu-24.04
     env:
-      VARIANT: ${{ github.ref_type == 'tag' && 'release' || inputs.variant }}
+      VARIANT: ${{ github.ref_type == 'tag' && 'release' || inputs.variant || 'debug' }}
     steps:
       - uses: actions/checkout@v5
       - id: gradle
@@ -66,11 +63,12 @@ jobs:
           fi
       - if: steps.gradle.outputs.present != 'true'
         run: echo "No Gradle wrapper yet; nothing to assemble."
-      - if: steps.gradle.outputs.present == 'true' && (inputs.upload != false || github.ref_type == 'tag')
+      - if: steps.gradle.outputs.present == 'true'
         uses: actions/upload-artifact@v6
         with:
-          name: android-${{ env.VARIANT }}
+          name: app-${{ env.VARIANT }}-${{ github.ref_type == 'tag' && github.ref_name || github.sha }}
           path: |
             **/build/outputs/apk/**/*.apk
             **/build/outputs/bundle/**/*.aab
           if-no-files-found: error
+          retention-days: ${{ env.VARIANT == 'release' && 90 || 14 }}
