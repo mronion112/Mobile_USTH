@@ -1,0 +1,22 @@
+# Architecture Rules
+
+- **On-Device RSS Processing & Local-First**:
+  - App fetches RSS/Atom feeds on device directly and stores data in a local store (Room / In-Memory / DataStore).
+  - Repository contains NO external backend server module and does NOT depend on external aggregation services.
+  - App shell fetcher is responsible for network I/O and feed parsing; individual screens only consume the local repository/state.
+- **UI Framework & Patterns**:
+  - Jetpack Compose with Material 3 (`androidx.compose.material3`).
+  - Unidirectional Data Flow (UDF): ViewModels expose `StateFlow<UiState>` and handle user UI events.
+  - Composable functions hoist state and accept event callbacks.
+- **Shared Domain Models**:
+  - Shared models (`Article`, `Category`, `RssSource`, `FetchError`) defined in `00-app-shell` / shared domain layer.
+  - Feature screens must reuse shared models and UI components (`00-shared-components`); do not duplicate DTOs or models.
+- **Design System Fidelity (Editorial Pulse)**:
+  - Canvas: `#F8FAFC`, Surface: `#FFFFFF`, Primary Teal: `#005C55` / `#0F766E`.
+  - Border subtle: `#E2E8F0`, Text primary: `#0F172A`, Text secondary: `#475569`, Muted: `#94A3B8`.
+  - Cards radius 16–20dp, input/buttons 12–14dp with min height 44dp.
+  - Category chips must be fully pill-shaped.
+- **Error Handling**:
+  - Map errors (`RSS_FEED_INVALID`, `DUPLICATE_SOURCE`, `RSS_FETCH_FAILED`) to user-friendly Vietnamese messages.
+  - Keep form inputs intact on validation/save failure.
+  - Prevent double submission during network or I/O operations.
