@@ -22,5 +22,5 @@
 ## Handover
 
 - [ ] Đã cập nhật `Guide.md` của feature với behavior/test thật
-- [ ] Đã đính screenshot nếu thay đổi màn S01–S09
+- [ ] Đã đính screenshot nếu thay đổi visual khó kiểm tra bằng code hoặc reviewer yêu cầu
 - [ ] Có ghi dependency hoặc việc còn lại cho feature kế tiếp
