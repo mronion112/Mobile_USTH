@@ -34,10 +34,14 @@ Frontend-only GitHub Actions pipelines. No backend jobs exist by design.
 | Kotlin | `2.2.10` | `build.gradle.kts` |
 | compileSdk / targetSdk | `36` | `app/build.gradle.kts` |
 | minSdk | `24` | `app/build.gradle.kts` |
-| Installed SDK packages | `platforms;android-36`, `build-tools;36.0.0`, `platform-tools` | `ci.yml`, `cd.yml` |
+| Installed SDK packages | `platform-tools` via `setup-android`; `platforms;android-36` and `build-tools;36.0.0` via `sdkmanager` | `ci.yml`, `cd.yml` |
 
 Update this table and both workflows together when AGP, Gradle, or
 `compileSdk` changes.
+
+`setup-android` receives `packages: platform-tools` so it does not try to
+install the retired `tools` package, which fails on cmdline-tools 16.
+Licenses are accepted before the explicit SDK 36 install.
 
 ## Pinned actions
 
