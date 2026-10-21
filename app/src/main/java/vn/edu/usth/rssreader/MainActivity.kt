@@ -15,15 +15,12 @@ import androidx.compose.material.icons.outlined.Explore
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.RssFeed
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.Typography
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,6 +34,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import vn.edu.usth.rssreader.ui.theme.ActionTeal
+import vn.edu.usth.rssreader.ui.theme.MobileUSTHTheme
+import vn.edu.usth.rssreader.ui.theme.MutedSlate
+import vn.edu.usth.rssreader.ui.theme.White
 
 class MainActivity : ComponentActivity() {
 
@@ -49,10 +50,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-private val Teal = Color(0xFF0F766E)
-private val MutedSlate = Color(0xFF94A3B8)
-private val White = Color.White
 
 private enum class Destination(
     @param:StringRes val label: Int,
@@ -96,8 +93,8 @@ private fun AppShell() {
                         },
                         alwaysShowLabel = true,
                         colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = Teal,
-                            selectedTextColor = Teal,
+                            selectedIconColor = ActionTeal,
+                            selectedTextColor = ActionTeal,
                             unselectedIconColor = MutedSlate,
                             unselectedTextColor = MutedSlate,
                             indicatorColor = Color.Transparent,
@@ -114,19 +111,6 @@ private fun AppShell() {
                 .background(White),
         )
     }
-}
-
-@Composable
-private fun MobileUSTHTheme(content: @Composable () -> Unit) {
-    MaterialTheme(
-        colorScheme = lightColorScheme(
-            primary = Teal,
-            surface = White,
-            background = White,
-        ),
-        typography = Typography(),
-        content = content,
-    )
 }
 
 @Preview(showBackground = true)

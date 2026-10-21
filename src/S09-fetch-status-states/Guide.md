@@ -61,4 +61,28 @@ Refreshing source `id=3` produces the same stored object shape. The only fields 
 ## Done when
 
 - [ ] All S01–S08 owners link their state behavior in PR description.
-- [ ] Error copy does not expose stack trace, URLs with credentials, or raw XML.
+- [x] Error copy does not expose stack trace, URLs with credentials, or raw XML.
+
+## Implementation status
+
+Implemented locally with Jetpack Compose:
+
+- Shared `ScreenState` contract plus reusable `LoadingState`, `EmptyState` and
+  `ErrorState` composables.
+- Reusable `SourceFetchStatusCard` for `ACTIVE`, `FETCHING` and `ERROR`;
+  `DISABLED` is intentionally hidden. Fetching has no retry action, preventing
+  duplicate refresh requests.
+- `RssSource`/`FetchError` shared models and presentation mapping for relative
+  fetch time, safe Vietnamese errors and retry visibility.
+- Android Studio previews cover loading, empty, error and all visible source
+  statuses at 390dp width.
+
+Automated checks run:
+
+- `testDebugUnitTest`: status mapping, relative time, disabled visibility,
+  known error-code copy and technical-detail redaction.
+- `assembleDebug`: passed.
+- `lintDebug`: passed.
+
+Still pending: S01–S08 owners must connect their repositories/ViewModels to the
+shared state components and document those integrations in their PRs.
