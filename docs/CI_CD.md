@@ -45,10 +45,14 @@ Licenses are accepted before the explicit SDK 36 install.
 
 ## Pinned actions
 
-`ubuntu-24.04`, `actions/checkout@v4`, `actions/setup-python@v5`,
-`actions/setup-java@v4`, `gradle/actions/setup-gradle@v4`,
-`gradle/actions/wrapper-validation@v4`, `android-actions/setup-android@v3`,
-`actions/upload-artifact@v4`, `gitleaks/gitleaks-action@v2`.
+`ubuntu-24.04`, `actions/checkout@v5`, `actions/setup-python@v6`,
+`actions/setup-java@v5`, `gradle/actions/setup-gradle@v5`,
+`gradle/actions/wrapper-validation@v5`, `android-actions/setup-android@v4`,
+`actions/upload-artifact@v6`, `gitleaks/gitleaks-action@v3`.
+
+Every action above runs on the Node 24 runtime. Node 20 targets are
+deprecated on GitHub-hosted runners, so keep this list on majors that
+declare `using: node24`.
 
 ## Excluded scope
 

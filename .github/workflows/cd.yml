@@ -28,7 +28,7 @@ jobs:
     env:
       VARIANT: ${{ github.ref_type == 'tag' && 'release' || inputs.variant }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - id: gradle
         name: Detect Gradle wrapper
         run: |
@@ -38,14 +38,14 @@ jobs:
             echo "present=false" >> "$GITHUB_OUTPUT"
           fi
       - if: steps.gradle.outputs.present == 'true'
-        uses: gradle/actions/wrapper-validation@v4
+        uses: gradle/actions/wrapper-validation@v5
       - if: steps.gradle.outputs.present == 'true'
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "21"
       - if: steps.gradle.outputs.present == 'true'
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
         with:
           packages: platform-tools
       - if: steps.gradle.outputs.present == 'true'
@@ -54,7 +54,7 @@ jobs:
           yes | sdkmanager --licenses > /dev/null
           sdkmanager --install "platforms;android-36" "build-tools;36.0.0"
       - if: steps.gradle.outputs.present == 'true'
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v5
       - if: steps.gradle.outputs.present == 'true'
         name: Assemble ${{ env.VARIANT }} artifact
         run: |
@@ -67,7 +67,7 @@ jobs:
       - if: steps.gradle.outputs.present != 'true'
         run: echo "No Gradle wrapper yet; nothing to assemble."
       - if: steps.gradle.outputs.present == 'true' && (inputs.upload != false || github.ref_type == 'tag')
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: android-${{ env.VARIANT }}
           path: |
