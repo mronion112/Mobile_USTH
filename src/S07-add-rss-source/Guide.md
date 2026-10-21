@@ -96,6 +96,18 @@ Show `name`, retain the numeric `id` and submit that value as `categoryId`; do n
 
 ## Done when
 
-- [ ] Valid preview preselects suggested category but user may change it.
-- [ ] Invalid/loading/save failure states prevent double submission.
-- [ ] Successful save refreshes S06 list.
+- [x] Valid preview preselects suggested category but user may change it.
+- [x] Invalid/loading/save failure states prevent double submission.
+- [x] Successful save refreshes S06 list.
+
+## Implementation files
+
+- `app/src/main/java/vn/edu/usth/rssreader/feature/s07_add_source/AddRssSourceSheet.kt`
+- `app/src/main/java/vn/edu/usth/rssreader/feature/s07_add_source/AddRssSourceViewModel.kt`
+- `app/src/main/java/vn/edu/usth/rssreader/feature/s07_add_source/AddRssSourceUiState.kt`
+- `app/src/main/java/vn/edu/usth/rssreader/data/parser/RssFeedValidator.kt`
+- `app/src/main/java/vn/edu/usth/rssreader/data/repository/RssSourceRepository.kt`
+- `app/src/main/java/vn/edu/usth/rssreader/core/model/RssModels.kt`
+- `app/src/main/java/vn/edu/usth/rssreader/core/designsystem/EditorialPulseTheme.kt`
+- `app/src/test/java/vn/edu/usth/rssreader/data/RssFeedValidatorTest.kt`
+- `app/src/test/java/vn/edu/usth/rssreader/feature/s07_add_source/AddRssSourceViewModelTest.kt`
