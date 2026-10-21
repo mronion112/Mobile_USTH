@@ -7,33 +7,61 @@ Frontend-only GitHub Actions pipelines. No backend jobs exist by design.
 | Workflow | Trigger | Jobs |
 | --- | --- | --- |
 | `ci.yml` | `pull_request` and `push` to `main` | `docs-validate` → `android-build`, `security-scan` |
-| `cd.yml` | `workflow_dispatch` and `v*` tags | `build-artifact` |
+| `cd.yml` | `v*` tags and manual dispatch | `build-artifact` |
 
+- `ci` watches `main` only. Feature branches are validated through the pull
+  request that targets `main`.
 - `concurrency` cancels superseded `ci` runs and serializes `cd` runs.
-- `android-build` runs cheap `docs-validate` first, then matrix
-  `[assembleDebug, testDebugUnitTest, lintDebug]`. It skips gracefully
-  while `gradlew` is absent (scaffold phase) and builds once the Android
-  module lands.
-- Gradle cache key: `hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml')`.
+- `permissions` are read-only except pull-request metadata for gitleaks.
+- `docs-validate` runs `scripts/ci/check-docs.py` first; it fails on missing
+  guides, removed API reference names, versioned REST paths, or obvious
+  secrets, so cheap checks gate the Gradle work.
+- `android-build` verifies the Gradle wrapper, then runs the matrix
+  `assemble` (`assembleDebug`) and `verify` (`testDebugUnitTest lintDebug`)
+  in parallel. Reports upload only on failure.
+- Both workflows skip the Gradle work while `gradlew` is absent, so they stay
+  green until the app module reaches `main`.
 - `security-scan` runs `gitleaks-action` as non-blocking until the team
   confirms a clean baseline, then remove `continue-on-error`.
-- Pinned: `ubuntu-24.04`, `actions/checkout@v4`, `actions/setup-python@v5`,
-  `actions/setup-java@v4`, `actions/cache@v4`, `actions/upload-artifact@v4`,
-  `gitleaks/gitleaks-action@v2`.
+
+## Android toolchain
+
+| Item | Value | Source |
+| --- | --- | --- |
+| JDK | Temurin 21 | `app/build.gradle.kts` targets Java 17; Gradle 9 needs 17+ |
+| Gradle | Wrapper `9.7.1` | `gradle/wrapper/gradle-wrapper.properties` |
+| AGP | `9.2.1` | `build.gradle.kts` |
+| Kotlin | `2.2.10` | `build.gradle.kts` |
+| compileSdk / targetSdk | `36` | `app/build.gradle.kts` |
+| minSdk | `24` | `app/build.gradle.kts` |
+| Installed SDK packages | `platforms;android-36`, `build-tools;36.0.0`, `platform-tools` | `ci.yml`, `cd.yml` |
+
+Update this table and both workflows together when AGP, Gradle, or
+`compileSdk` changes.
+
+## Pinned actions
+
+`ubuntu-24.04`, `actions/checkout@v4`, `actions/setup-python@v5`,
+`actions/setup-java@v4`, `gradle/actions/setup-gradle@v4`,
+`gradle/actions/wrapper-validation@v4`, `android-actions/setup-android@v3`,
+`actions/upload-artifact@v4`, `gitleaks/gitleaks-action@v2`.
 
 ## Excluded scope
 
 - No backend build, test, or deploy jobs.
 - No live feed smoke tests; `scripts/ci/check-docs.py` fails CI if any
   markdown references versioned REST paths or the removed API reference files.
-- Automated tests use fake RSS fixtures and a fake local store only, never production feeds.
+- Automated tests use fake RSS fixtures and a fake local store only, never
+  production feeds.
 
 ## Secrets
 
 Store signing keys and store passwords in GitHub Actions secrets.
 Never commit `local.properties`, keystores, `.env`, or tokens.
-Required names are declared by the Android module when it lands;
-`cd.yml` reads them only from `${{ secrets.* }}`.
+`cd.yml` reads secrets only from `${{ secrets.* }}`. Release builds are
+currently unsigned because `app/build.gradle.kts` defines no signing
+config; add it with secret-backed `storeFile`, `storePassword`,
+`keyAlias`, and `keyPassword` before publishing.
 
 ## Branch protection
 
