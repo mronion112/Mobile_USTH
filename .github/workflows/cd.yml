@@ -19,9 +19,14 @@ concurrency:
   group: cd-${{ github.ref }}
   cancel-in-progress: false
 
+permissions:
+  contents: read
+
 jobs:
   build-artifact:
     runs-on: ubuntu-24.04
+    env:
+      VARIANT: ${{ github.ref_type == 'tag' && 'release' || inputs.variant }}
     steps:
       - uses: actions/checkout@v4
       - id: gradle
@@ -33,33 +38,34 @@ jobs:
             echo "present=false" >> "$GITHUB_OUTPUT"
           fi
       - if: steps.gradle.outputs.present == 'true'
+        uses: gradle/actions/wrapper-validation@v4
+      - if: steps.gradle.outputs.present == 'true'
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "17"
+          java-version: "21"
       - if: steps.gradle.outputs.present == 'true'
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml') }}
-          restore-keys: gradle-${{ runner.os }}-
+        uses: android-actions/setup-android@v3
       - if: steps.gradle.outputs.present == 'true'
-        name: Assemble frontend artifact
+        name: Install Android SDK 36
+        run: sdkmanager --install "platforms;android-36" "build-tools;36.0.0" "platform-tools"
+      - if: steps.gradle.outputs.present == 'true'
+        uses: gradle/actions/setup-gradle@v4
+      - if: steps.gradle.outputs.present == 'true'
+        name: Assemble ${{ env.VARIANT }} artifact
         run: |
           chmod +x gradlew
-          if [ "${{ inputs.variant }}" = "release" ]; then
-            ./gradlew --no-daemon assembleRelease bundleRelease
+          if [ "$VARIANT" = "release" ]; then
+            ./gradlew --no-daemon --stacktrace assembleRelease bundleRelease
           else
-            ./gradlew --no-daemon assembleDebug
+            ./gradlew --no-daemon --stacktrace assembleDebug
           fi
       - if: steps.gradle.outputs.present != 'true'
-        run: echo "No Gradle wrapper yet; nothing to assemble (scaffold phase)."
-      - if: steps.gradle.outputs.present == 'true' && (inputs.upload != false || startsWith(github.ref, 'refs/tags/v'))
+        run: echo "No Gradle wrapper yet; nothing to assemble."
+      - if: steps.gradle.outputs.present == 'true' && (inputs.upload != false || github.ref_type == 'tag')
         uses: actions/upload-artifact@v4
         with:
-          name: android-${{ inputs.variant || 'tag' }}
+          name: android-${{ env.VARIANT }}
           path: |
             **/build/outputs/apk/**/*.apk
             **/build/outputs/bundle/**/*.aab
