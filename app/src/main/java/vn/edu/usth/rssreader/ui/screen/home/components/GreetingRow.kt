@@ -58,7 +58,7 @@ fun GreetingRow(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            AvatarWithOnlineDot(reader = reader, online = true)
+//            AvatarWithOnlineDot(reader = reader, online = true)
 
             Column {
                 Row(verticalAlignment = Alignment.CenterVertically) {

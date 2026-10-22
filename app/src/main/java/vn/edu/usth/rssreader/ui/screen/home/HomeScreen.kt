@@ -2,6 +2,7 @@ package vn.edu.usth.rssreader.ui.screen.home
 
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import vn.edu.usth.rssreader.ui.screen.home.components.CategoryStrip
@@ -24,6 +26,7 @@ import vn.edu.usth.rssreader.ui.screen.home.components.GreetingRow
 import vn.edu.usth.rssreader.ui.screen.home.components.HomeSearchBar
 import vn.edu.usth.rssreader.ui.screen.home.components.LatestSection
 import vn.edu.usth.rssreader.ui.screen.home.components.RssStatusBar
+import vn.edu.usth.rssreader.ui.screen.saved.SavedScreen
 import vn.edu.usth.rssreader.ui.theme.SurfaceCanvas
 
 @Composable
@@ -102,5 +105,13 @@ fun HomeScreen(
         )
 
         Spacer(Modifier.height(32.dp))
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewHomeScreen() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        HomeScreen()
     }
 }
