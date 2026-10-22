@@ -1,6 +1,7 @@
 package vn.edu.usth.rssreader.ui.screen.rss
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,14 +10,12 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import vn.edu.usth.rssreader.RssReaderApplication
 import vn.edu.usth.rssreader.data.model.RssSourceStatus
-import vn.edu.usth.rssreader.data.repository.LocalRssSourceRepository
-import vn.edu.usth.rssreader.data.repository.RssSourceRepository
 import vn.edu.usth.rssreader.data.repository.SourceActionResult
 
-class RssSourcesViewModel(
-    private val repository: RssSourceRepository = LocalRssSourceRepository
-) : ViewModel() {
+class RssSourcesViewModel(application: Application) : AndroidViewModel(application) {
+    private val repository = (application as RssReaderApplication).rssSourceRepository
     private val _uiState = MutableStateFlow(RssSourcesUiState())
     val uiState: StateFlow<RssSourcesUiState> = _uiState.asStateFlow()
 
@@ -28,8 +27,8 @@ class RssSourcesViewModel(
             repository.sources.collect { sources ->
                 _uiState.update { current ->
                     current.copy(
-                        isLoading = false,
-                        sources = sources.filter { it.status != RssSourceStatus.DISABLED }
+                        isLoading = sources == null,
+                        sources = sources.orEmpty().filter { it.status != RssSourceStatus.DISABLED }
                     )
                 }
             }
