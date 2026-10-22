@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.SnackbarHost
@@ -42,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import vn.edu.usth.rssreader.data.model.RssSourceStatus
+import vn.edu.usth.rssreader.ui.screen.rss.components.AddRssSourceSheet
 import vn.edu.usth.rssreader.ui.screen.rss.components.RemoveSourceConfirmationDialog
 import vn.edu.usth.rssreader.ui.screen.rss.components.RssSourceCard
 import vn.edu.usth.rssreader.ui.theme.BorderSubtle
@@ -55,14 +57,10 @@ import vn.edu.usth.rssreader.ui.theme.TextMuted
 import vn.edu.usth.rssreader.ui.theme.TextPrimary
 import vn.edu.usth.rssreader.ui.theme.TextSecondary
 
-/**
- * S06 source management. `onAddSource` is supplied by S07's navigation owner;
- * S06 deliberately does not create a second add-source flow.
- */
+/** S06 source management and the S07 add-source entry sheet. */
 @Composable
 fun RssScreen(
     modifier: Modifier = Modifier,
-    onAddSource: () -> Unit = {},
     viewModel: RssSourcesViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -79,10 +77,15 @@ fun RssScreen(
     ) {
         when {
             uiState.isLoading -> RssSourcesLoading()
-            uiState.sources.isEmpty() -> EmptySources(onAddSource = onAddSource)
+            uiState.loadError != null -> RssSourcesLoadError(
+                message = uiState.loadError.orEmpty(),
+                onRetry = viewModel::reloadSources,
+                onRestoreDefault = viewModel::restoreBundledCatalog
+            )
+            uiState.sources.isEmpty() -> EmptySources(onAddSource = viewModel::openAddSource)
             else -> SourcesContent(
                 state = uiState,
-                onAddSource = onAddSource,
+                onAddSource = viewModel::openAddSource,
                 onRefresh = viewModel::refresh,
                 onRemove = viewModel::requestRemoval
             )
@@ -103,6 +106,18 @@ fun RssScreen(
             errorMessage = uiState.removalError,
             onDismiss = viewModel::dismissRemoval,
             onConfirm = viewModel::confirmRemoval
+        )
+    }
+
+    uiState.addSource?.let { state ->
+        AddRssSourceSheet(
+            state = state,
+            onNameChange = viewModel::updateNewSourceName,
+            onUrlChange = viewModel::updateNewSourceUrl,
+            onCategorySelected = viewModel::selectNewSourceCategory,
+            onValidate = viewModel::validateNewSource,
+            onSave = viewModel::saveNewSource,
+            onDismiss = viewModel::dismissAddSource
         )
     }
 }
@@ -353,6 +368,71 @@ private fun EmptySources(onAddSource: () -> Unit) {
             Spacer(Modifier.width(8.dp))
             Text("Thêm nguồn RSS", fontWeight = FontWeight.SemiBold)
         }
+    }
+}
+
+@Composable
+private fun RssSourcesLoadError(
+    message: String,
+    onRetry: () -> Unit,
+    onRestoreDefault: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Icon(
+            imageVector = Icons.Filled.ErrorOutline,
+            contentDescription = null,
+            tint = StatusError,
+            modifier = Modifier.size(40.dp)
+        )
+        Spacer(Modifier.height(16.dp))
+        Text(
+            text = "Không thể mở nguồn RSS",
+            color = TextPrimary,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(Modifier.height(8.dp))
+        Text(
+            text = message,
+            color = TextSecondary,
+            fontSize = 14.sp,
+            lineHeight = 21.sp,
+            textAlign = TextAlign.Center
+        )
+        Spacer(Modifier.height(20.dp))
+        Button(
+            onClick = onRetry,
+            modifier = Modifier.height(44.dp),
+            shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = PrimaryContainer,
+                contentColor = SurfaceCard
+            )
+        ) {
+            Text("Thử lại", fontWeight = FontWeight.SemiBold)
+        }
+        Spacer(Modifier.height(8.dp))
+        OutlinedButton(
+            onClick = onRestoreDefault,
+            modifier = Modifier.height(44.dp),
+            shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp)
+        ) {
+            Text("Khôi phục mặc định", fontWeight = FontWeight.SemiBold)
+        }
+        Spacer(Modifier.height(8.dp))
+        Text(
+            text = "Khôi phục sẽ thay danh sách nguồn đã lưu trên thiết bị bằng danh sách mặc định.",
+            color = TextMuted,
+            fontSize = 12.sp,
+            lineHeight = 17.sp,
+            textAlign = TextAlign.Center
+        )
     }
 }
 

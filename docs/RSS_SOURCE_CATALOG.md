@@ -14,9 +14,12 @@ Use the `main` branch in that URL after the change is merged.
 
 1. On a fresh install, the app copies the bundled JSON asset to its private file `filesDir/rss_sources.json`.
 2. S06 reads the private file through `JsonRssSourceRepository`.
-3. S07 can add a validated, non-duplicate HTTP(S) RSS URL through the same repository; it becomes a `FETCHING` source and is written to the private JSON file.
+3. The add-source sheet validates an HTTP(S) RSS/Atom URL on the device before it can be saved. A valid, non-duplicate source becomes `FETCHING`, is written to the private JSON file, then completes an on-device XML fetch to `ACTIVE` or `ERROR`.
 4. S08 confirms a removal using the immutable source id, then writes the updated source list back to that private JSON file atomically.
-5. Refresh status transitions are written to the same file, so the list survives process restart. Existing articles and bookmarks are deliberately untouched.
+5. Manual refresh first persists `FETCHING`, makes a real HTTP/XML RSS or Atom request on the device, then persists `ACTIVE` with a timestamp or `ERROR` with a safe message. An interrupted `FETCHING` request is resumed at the next app launch.
+6. A corrupt local JSON file is shown as a recoverable error rather than an empty source list. The user can retry reading it or explicitly restore the bundled default catalog (which replaces their local source changes).
+
+The manifest keeps cleartext traffic enabled solely so legacy `http://` RSS feeds can be validated and refreshed; new feeds should prefer `https://` whenever the publisher provides it.
 
 The bundled asset is a reproducible seed. Once a user changes their list, the local copy takes precedence so an app update never silently restores a deleted source.
 
