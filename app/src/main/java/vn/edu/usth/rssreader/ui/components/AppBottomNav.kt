@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -24,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import vn.edu.usth.rssreader.ui.navigation.Destination
+import vn.edu.usth.rssreader.ui.theme.BorderSubtle
 import vn.edu.usth.rssreader.ui.theme.Primary
 import vn.edu.usth.rssreader.ui.theme.SurfaceCard
 import vn.edu.usth.rssreader.ui.theme.TextMuted
@@ -36,24 +38,27 @@ fun AppBottomNav(
 ) {
     Surface(
         modifier = modifier.fillMaxWidth(),
-        color = SurfaceCard.copy(alpha = 0.9f),
+        color = SurfaceCard,
         shadowElevation = 8.dp
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .navigationBarsPadding()
-                .height(64.dp)
-                .padding(horizontal = 8.dp),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Destination.entries.forEach { destination ->
-                BottomNavItem(
-                    destination = destination,
-                    selected = destination == currentDestination,
-                    onClick = { onNavigate(destination) }
-                )
+        Column {
+            HorizontalDivider(thickness = 1.dp, color = BorderSubtle)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .navigationBarsPadding()
+                    .height(64.dp)
+                    .padding(horizontal = 8.dp),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Destination.entries.forEach { destination ->
+                    BottomNavItem(
+                        destination = destination,
+                        selected = destination == currentDestination,
+                        onClick = { onNavigate(destination) }
+                    )
+                }
             }
         }
     }
