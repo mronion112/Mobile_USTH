@@ -4,7 +4,7 @@
 
 FE Lead chốt Jetpack Compose hoặc XML Views (khuyến nghị Compose), tạo local store (Room), on-device RSS fetcher, nullable model và navigation shell. Áp dụng token trong `DESIGN2.md` trước khi tạo screen riêng.
 
-**Bàn giao:** bottom navigation 4 tab, top utility bar, model local dùng chung, loading/error mapping, preview/mock dữ liệu cho UI.
+**Bàn giao:** bottom navigation 4 tab, model local dùng chung, loading/error mapping, preview/mock dữ liệu cho UI.
 
 ## G1 — Shared editorial UI
 
