@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.RssFeed
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material3.Icon
@@ -46,7 +45,6 @@ import vn.edu.usth.rssreader.ui.components.article.CategoryBadge
 import vn.edu.usth.rssreader.ui.components.article.CategoryBadgeVariant
 import vn.edu.usth.rssreader.ui.theme.OnPrimary
 import vn.edu.usth.rssreader.ui.theme.Primary
-import vn.edu.usth.rssreader.ui.theme.PrimaryFixed
 import vn.edu.usth.rssreader.ui.theme.SurfaceCard
 import vn.edu.usth.rssreader.ui.theme.SurfaceCardSubtle
 import vn.edu.usth.rssreader.ui.theme.TextMuted
@@ -237,11 +235,6 @@ fun FeaturedNewsCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Spacer(modifier = Modifier)
-//                if (article.isRssVerified) {
-//                    RssVerifiedBadge()
-//                } else {
-//                    Spacer(Modifier.size(1.dp))
-//                }
 
                 Row(
                     modifier = Modifier
@@ -290,33 +283,6 @@ private fun OverlayTag(text: String) {
         fontWeight = FontWeight.Bold,
         letterSpacing = 0.33.sp
     )
-}
-
-@Composable
-private fun RssVerifiedBadge() {
-    Row(
-        modifier = Modifier
-            .clip(RoundedCornerShape(50))
-            .background(PrimaryFixed.copy(alpha = 0.3f))
-            .padding(horizontal = 10.dp, vertical = 4.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        Icon(
-            imageVector = Icons.Filled.RssFeed,
-            contentDescription = null,
-            tint = Primary,
-            modifier = Modifier.size(14.dp)
-        )
-        Text(
-            text = "RSS Verified",
-            color = Primary,
-            fontSize = 11.sp,
-            lineHeight = 14.sp,
-            fontWeight = FontWeight.Bold,
-            letterSpacing = 0.33.sp
-        )
-    }
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFFF8FAFC, widthDp = 380)
