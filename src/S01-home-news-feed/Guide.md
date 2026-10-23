@@ -65,7 +65,7 @@ Toggling a bookmark flips the stored `isBookmarked` flag on the same complete Ar
 ## DESIGN2 visual requirements
 
 - Screen canvas `#F8FAFC`, 16dp horizontal margin and fixed Editorial Pulse bottom navigation.
-- Place a calm top utility bar, then 44dp rounded search entry and horizontally scrollable category pills. Active chip is `#0F766E`; inactive chip is `#F1F5F9`.
+- Place the 44dp rounded search entry first, then horizontally scrollable category pills. Active chip is `#0F766E`; inactive chip is `#F1F5F9`.
 - First/featured story is a white elevated card with 16:9 image, amber Trending badge only when data warrants it, bold Plus Jakarta Sans headline and two-line Inter summary.
 - Latest stories use white compact cards with text left and 72×72dp image right. A null `imageUrl` shows a subtle slate placeholder at the same size.
 - Use 12–16dp vertical rhythm; metadata is muted slate, never larger/more prominent than article title.
