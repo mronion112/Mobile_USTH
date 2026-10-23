@@ -68,11 +68,11 @@ fun FeaturedSection(
                 HotBadge()
             }
 
-            TrailingLink(
-                text = "Tất cả",
-                onClick = onSeeAllClick,
-                showChevron = true
-            )
+//            TrailingLink(
+//                text = "Tất cả",
+//                onClick = onSeeAllClick,
+//                showChevron = true
+//            )
         }
 
         Spacer(Modifier.height(8.dp))

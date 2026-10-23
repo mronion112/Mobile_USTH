@@ -66,11 +66,11 @@ fun TrendingTopicsSection(
                 )
             }
 
-            TrailingLink(
-                text = "Xem tất cả",
-                onClick = onSeeAllClick,
-                showChevron = false
-            )
+//            TrailingLink(
+//                text = "Xem tất cả",
+//                onClick = onSeeAllClick,
+//                showChevron = false
+//            )
         }
 
         Spacer(Modifier.height(8.dp))

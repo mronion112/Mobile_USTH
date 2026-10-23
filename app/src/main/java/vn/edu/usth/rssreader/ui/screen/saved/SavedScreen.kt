@@ -180,22 +180,22 @@ private fun SavedContent(
                 current = uiState.sortMode,
                 onSelect = onSortModeChange
             )
-            Box(
-                modifier = Modifier
-                    .size(32.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .clickable {
-                        // TODO(saved-mode): Multi-select để xóa hàng loạt
-                    },
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Checklist,
-                    contentDescription = "Chế độ chọn",
-                    tint = TextMuted,
-                    modifier = Modifier.size(20.dp)
-                )
-            }
+//            Box(
+//                modifier = Modifier
+//                    .size(32.dp)
+//                    .clip(RoundedCornerShape(8.dp))
+//                    .clickable {
+//                        // TODO(saved-mode): Multi-select để xóa hàng loạt
+//                    },
+//                contentAlignment = Alignment.Center
+//            ) {
+//                Icon(
+//                    imageVector = Icons.Filled.Checklist,
+//                    contentDescription = "Chế độ chọn",
+//                    tint = TextMuted,
+//                    modifier = Modifier.size(20.dp)
+//                )
+//            }
         }
 
         Spacer(Modifier.height(12.dp))
