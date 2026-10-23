@@ -51,7 +51,7 @@ import vn.edu.usth.rssreader.data.fake.FakeExploreArticles
 import vn.edu.usth.rssreader.data.fake.FakeSavedData
 import vn.edu.usth.rssreader.data.model.Article
 import vn.edu.usth.rssreader.data.model.Category
-import vn.edu.usth.rssreader.ui.screen.saved.components.CloudSyncBar
+import vn.edu.usth.rssreader.ui.screen.saved.components.FeedSyncBar
 import vn.edu.usth.rssreader.ui.screen.saved.components.EmptySavedState
 import vn.edu.usth.rssreader.ui.screen.saved.components.FolderPill
 import vn.edu.usth.rssreader.ui.screen.saved.components.SavedArticleItem
@@ -226,8 +226,8 @@ fun SavedScreen(modifier: Modifier = Modifier) {
 
         Spacer(Modifier.height(20.dp))
 
-        // Cloud sync bar
-        CloudSyncBar(modifier = Modifier.padding(horizontal = 16.dp))
+        // On-device feed sync bar
+        FeedSyncBar(modifier = Modifier.padding(horizontal = 16.dp))
 
         Spacer(Modifier.height(24.dp))
     }

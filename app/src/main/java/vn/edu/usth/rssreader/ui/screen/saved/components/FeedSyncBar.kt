@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CloudSync
+import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,7 +30,7 @@ import vn.edu.usth.rssreader.ui.theme.TextPrimary
 import vn.edu.usth.rssreader.ui.theme.TextSecondary
 
 @Composable
-fun CloudSyncBar(
+fun FeedSyncBar(
     lastSyncedLabel: String = "Cập nhật lần cuối: 2 phút trước",
     online: Boolean = true,
     modifier: Modifier = Modifier
@@ -57,7 +57,7 @@ fun CloudSyncBar(
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = Icons.Filled.CloudSync,
+                    imageVector = Icons.Filled.Sync,
                     contentDescription = null,
                     tint = Primary,
                     modifier = Modifier.size(18.dp)
@@ -65,7 +65,7 @@ fun CloudSyncBar(
             }
             Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Text(
-                    text = "Đồng bộ RSS Cloud",
+                    text = "Đồng bộ RSS trên máy",
                     color = TextPrimary,
                     fontSize = 11.sp,
                     lineHeight = 14.sp,
@@ -104,8 +104,8 @@ fun CloudSyncBar(
 
 @Preview(showBackground = true, backgroundColor = 0xFFF8FAFC, widthDp = 380)
 @Composable
-private fun PreviewCloudSyncBar() {
+private fun PreviewFeedSyncBar() {
     Box(modifier = Modifier.padding(16.dp)) {
-        CloudSyncBar()
+        FeedSyncBar()
     }
 }
