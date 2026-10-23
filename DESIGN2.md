@@ -197,7 +197,7 @@ The typographic hierarchy blends the bold, geometric warmth of **Plus Jakarta Sa
 The layout is optimized for single-handed mobile engagement while seamlessly scaling to tablet and desktop readouts.
 
 ### Layout Mechanics
-- **Mobile Handheld (360px - 480px):** Single-column fluid stream with fixed outer margins of `16px` (`margin-mobile`). Vertical article cards stack with `12px` to `16px` gaps. The viewport is capped by a floating or fixed top utility bar and anchored by a 64px fixed bottom navigation bar with safe-area insets.
+- **Mobile Handheld (360px - 480px):** Single-column fluid stream with fixed outer margins of `16px` (`margin-mobile`). Vertical article cards stack with `12px` to `16px` gaps. Content renders edge to edge with no top bar, anchored by a 64px fixed bottom navigation bar with safe-area insets.
 - **Tablet / Large Screens (768px+):** Fluid 6-column or split 2-column view where article previews coexist alongside the active feed reader frame or RSS source panel.
 - **Rhythm & Padding:** Component interiors rely strictly on `space-md` (16px) for compact cards and `space-lg` (20px) for featured hero cards. Grouped elements like source avatars and timestamps adhere to `space-xs` (4px) and `space-sm` (8px).
 
