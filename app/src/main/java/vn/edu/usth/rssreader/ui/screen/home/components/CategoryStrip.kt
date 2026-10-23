@@ -30,7 +30,7 @@ fun CategoryStrip(
     selectedCategoryId: String?,
     onCategorySelected: (String) -> Unit,
     modifier: Modifier = Modifier,
-    syncedFeedCount: Int = 14
+    syncedFeedCount: Int = 0
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
 
