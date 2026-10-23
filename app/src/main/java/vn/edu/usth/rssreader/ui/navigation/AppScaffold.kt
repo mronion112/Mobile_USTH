@@ -20,13 +20,13 @@ fun AppScaffold(
     Scaffold(
         modifier = modifier,
         containerColor = SurfaceCanvas,
-        topBar = {
-            AppTopBar(
-                title = currentDestination.title,
-                onSearchClick = onSearchClick,
-                onAvatarClick = onAvatarClick
-            )
-        },
+//        topBar = {
+//            AppTopBar(
+//                title = currentDestination.title,
+//                onSearchClick = onSearchClick,
+//                onAvatarClick = onAvatarClick
+//            )
+//        },
         bottomBar = {
             AppBottomNav(
                 currentDestination = currentDestination,

@@ -236,11 +236,12 @@ fun FeaturedNewsCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                if (article.isRssVerified) {
-                    RssVerifiedBadge()
-                } else {
-                    Spacer(Modifier.size(1.dp))
-                }
+                Spacer(modifier = Modifier)
+//                if (article.isRssVerified) {
+//                    RssVerifiedBadge()
+//                } else {
+//                    Spacer(Modifier.size(1.dp))
+//                }
 
                 Row(
                     modifier = Modifier

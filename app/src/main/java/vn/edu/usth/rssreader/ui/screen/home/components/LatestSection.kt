@@ -45,7 +45,7 @@ fun LatestSection(
     savedIds: Set<String>,
     isRefreshing: Boolean,
     onRefreshClick: () -> Unit,
-    onBookmarkToggle: (String, Boolean) -> Unit,
+    onBookmarkToggle: (Article, Boolean) -> Unit,
     modifier: Modifier = Modifier,
     onArticleClick: (String) -> Unit = {},
     onSeeMoreClick: () -> Unit = {}
@@ -86,11 +86,11 @@ fun LatestSection(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 RefreshChip(isRefreshing = isRefreshing, onClick = onRefreshClick)
-                TrailingLink(
-                    text = "Xem thêm",
-                    onClick = onSeeMoreClick,
-                    showChevron = false
-                )
+//                TrailingLink(
+//                    text = "Xem thêm",
+//                    onClick = onSeeMoreClick,
+//                    showChevron = false
+//                )
             }
         }
 
@@ -105,7 +105,7 @@ fun LatestSection(
                 NewsListItem(
                     article = article,
                     bookmarked = savedIds.contains(article.id),
-                    onBookmarkToggle = { onBookmarkToggle(article.id, it) },
+                    onBookmarkToggle = { onBookmarkToggle(article, it) },
                     onClick = { onArticleClick(article.id) }
                 )
             }
