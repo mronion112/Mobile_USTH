@@ -11,6 +11,9 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -51,17 +54,21 @@ fun AppNavHost(
         backStackEntry?.destination?.route
     )
 
+    var focusExploreSearch by remember { mutableStateOf(false) }
+
+    val navigateToTab: (Destination) -> Unit = { destination ->
+        navController.navigate(destination.route) {
+            popUpTo(navController.graph.findStartDestination().id) {
+                saveState = true
+            }
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+
     AppScaffold(
         currentDestination = currentDestination,
-        onNavigate = { destination ->
-            navController.navigate(destination.route) {
-                popUpTo(navController.graph.findStartDestination().id) {
-                    saveState = true
-                }
-                launchSingleTop = true
-                restoreState = true
-            }
-        },
+        onNavigate = navigateToTab,
         modifier = modifier
     ) { innerPadding ->
         NavHost(
@@ -74,10 +81,18 @@ fun AppNavHost(
             popExitTransition = { tabExit() }
         ) {
             composable(Destination.HOME.route) {
-                HomeScreen()
+                HomeScreen(
+                    onSearchClick = {
+                        focusExploreSearch = true
+                        navigateToTab(Destination.EXPLORE)
+                    }
+                )
             }
             composable(Destination.EXPLORE.route) {
-                ExploreScreen()
+                ExploreScreen(
+                    focusSearchOnEnter = focusExploreSearch,
+                    onSearchFocused = { focusExploreSearch = false }
+                )
             }
             composable(Destination.SAVED.route) {
                 SavedScreen()
