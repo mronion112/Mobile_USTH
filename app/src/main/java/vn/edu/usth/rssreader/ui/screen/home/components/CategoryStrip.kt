@@ -42,15 +42,7 @@ fun CategoryStrip(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Spacer(modifier = Modifier)
-//            Text(
-//                text = "CHUYÊN MỤC DÂN TRÍ",
-//                color = TextSecondary,
-//                fontSize = 12.sp,
-//                lineHeight = 16.sp,
-//                fontWeight = FontWeight.SemiBold,
-//                letterSpacing = 0.6.sp
-//            )
+            Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = "Đang đồng bộ $syncedFeedCount luồng",
                 color = Primary,

@@ -26,7 +26,6 @@ import vn.edu.usth.rssreader.ui.screen.home.components.GreetingRow
 import vn.edu.usth.rssreader.ui.screen.home.components.HomeSearchBar
 import vn.edu.usth.rssreader.ui.screen.home.components.LatestSection
 import vn.edu.usth.rssreader.ui.screen.home.components.RssStatusBar
-import vn.edu.usth.rssreader.ui.screen.saved.SavedScreen
 import vn.edu.usth.rssreader.ui.theme.SurfaceCanvas
 
 @Composable

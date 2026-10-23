@@ -10,29 +10,22 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import vn.edu.usth.rssreader.data.model.Reader
 import vn.edu.usth.rssreader.ui.components.CircleIconButton
 import vn.edu.usth.rssreader.ui.components.StatusDot
 import vn.edu.usth.rssreader.ui.components.StatusDotType
 import vn.edu.usth.rssreader.ui.theme.PrimaryContainer
-import vn.edu.usth.rssreader.ui.theme.StatusSuccess
 import vn.edu.usth.rssreader.ui.theme.StatusWarning
-import vn.edu.usth.rssreader.ui.theme.SurfaceCard
-import vn.edu.usth.rssreader.ui.theme.SurfaceCardSubtle
 import vn.edu.usth.rssreader.ui.theme.TextPrimary
 import vn.edu.usth.rssreader.ui.theme.TextSecondary
 
@@ -58,8 +51,6 @@ fun GreetingRow(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-//            AvatarWithOnlineDot(reader = reader, online = true)
-
             Column {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
@@ -111,42 +102,6 @@ fun GreetingRow(
                     }
                 }
             )
-        }
-    }
-}
-
-@Composable
-private fun AvatarWithOnlineDot(
-    reader: Reader,
-    online: Boolean,
-    modifier: Modifier = Modifier
-) {
-    Box(modifier = modifier.size(44.dp)) {
-        AsyncImage(
-            model = reader.avatarUrl,
-            contentDescription = "Avatar ${reader.name}",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(44.dp)
-                .clip(CircleShape)
-                .background(SurfaceCardSubtle)
-        )
-        if (online) {
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .size(14.dp)
-                    .clip(shape = CircleShape)
-                    .background(SurfaceCard),
-                contentAlignment = Alignment.Center
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(10.dp)
-                        .clip(CircleShape)
-                        .background(StatusSuccess)
-                )
-            }
         }
     }
 }
