@@ -29,7 +29,7 @@
 Feature screens receive plain repository models, never raw XML or network payloads.
 
 ```kotlin
-data class Category(val id: Long, val name: String, val slug: String)
+data class Category(val id: String, val name: String, val slug: String)
 data class SourceRef(val id: Long, val name: String)
 
 data class Article(
