@@ -156,7 +156,7 @@ fun SearchResultItem(
                         onToggle = onBookmarkToggle,
                         variant = BookmarkButtonVariant.Inline
                     )
-                    ShareIconButton(onClick = onShareClick)
+//                    ShareIconButton(onClick = onShareClick)
                 }
             }
         }

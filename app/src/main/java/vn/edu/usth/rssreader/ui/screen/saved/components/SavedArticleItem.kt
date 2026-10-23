@@ -125,7 +125,7 @@ fun SavedArticleItem(
                         onToggle = { onUnsave() },
                         variant = BookmarkButtonVariant.Inline
                     )
-                    ShareIconButton(onClick = onShareClick)
+//                    ShareIconButton(onClick = onShareClick)
                 }
             }
         }
