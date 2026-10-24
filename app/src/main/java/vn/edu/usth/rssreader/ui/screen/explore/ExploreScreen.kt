@@ -59,6 +59,7 @@ fun ExploreScreen(
     modifier: Modifier = Modifier,
     focusSearchOnEnter: Boolean = false,
     onSearchFocused: () -> Unit = {},
+    onArticleClick: (String) -> Unit = {},
     viewModel: ExploreViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -67,6 +68,7 @@ fun ExploreScreen(
         modifier = modifier,
         focusSearchOnEnter = focusSearchOnEnter,
         onSearchFocused = onSearchFocused,
+        onArticleClick = onArticleClick,
         onQueryChange = viewModel::onQueryChange,
         onCategorySelected = viewModel::onCategorySelected,
         onLoadMore = viewModel::onLoadMore,
@@ -80,6 +82,7 @@ private fun ExploreContent(
     modifier: Modifier = Modifier,
     focusSearchOnEnter: Boolean = false,
     onSearchFocused: () -> Unit = {},
+    onArticleClick: (String) -> Unit = {},
     onQueryChange: (String) -> Unit = {},
     onCategorySelected: (String) -> Unit = {},
     onLoadMore: () -> Unit = {},
@@ -144,9 +147,7 @@ private fun ExploreContent(
                         onSeeAllClick = {
                             // TODO(all-articles-screen)
                         },
-                        onArticleClick = {
-                            // TODO(detail-screen)
-                        }
+                        onArticleClick = onArticleClick
                     )
                     Spacer(Modifier.height(16.dp))
                 }
@@ -176,9 +177,7 @@ private fun ExploreContent(
                                 onShareClick = {
                                     // TODO(share)
                                 },
-                                onClick = {
-                                    // TODO(detail-screen): Mở chi tiết article.id = "${article.id}"
-                                }
+                                onClick = { onArticleClick(article.id) }
                             )
                         }
                     }

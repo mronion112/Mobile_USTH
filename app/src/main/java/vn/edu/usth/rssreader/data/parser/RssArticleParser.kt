@@ -130,6 +130,7 @@ class RssArticleParser {
                 sourceId = source.id,
                 title = cleanTitle,
                 description = stripHtml(descriptionHtml),
+                link = link.orEmpty(),
                 imageUrl = image,
                 category = source.category,
                 source = source.name,

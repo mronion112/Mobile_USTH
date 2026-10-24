@@ -250,6 +250,7 @@ class JsonArticleRepository(
         .put("sourceId", sourceId)
         .put("title", title)
         .put("description", description)
+        .put("link", link)
         .put("imageUrl", imageUrl)
         .put(
             "category",
@@ -273,6 +274,7 @@ class JsonArticleRepository(
             sourceId = optLong("sourceId", -1L),
             title = getString("title"),
             description = optNullableString("description"),
+            link = optString("link", ""),
             imageUrl = optString("imageUrl", ""),
             category = Category(
                 id = category.getString("id"),

@@ -48,7 +48,8 @@ import vn.edu.usth.rssreader.ui.theme.TextSecondary
 fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(),
-    onSearchClick: () -> Unit = {}
+    onSearchClick: () -> Unit = {},
+    onArticleClick: (String) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -119,15 +120,8 @@ fun HomeScreen(
                         onBookmarkToggle = { bookmarked ->
                             viewModel.onToggleBookmark(article, bookmarked)
                         },
-                        onCardClick = {
-                            // TODO(detail-screen): Mở màn hình chi tiết cho article.id = "${article.id}"
-
-                        },
-                        onReadNowClick = {
-                            // TODO(detail-screen): Giống onCardClick; có thể scroll tới phần nội dung chính
-                            //   sau khi mở detail.
-                            // articleId = "${article.id}"
-                        },
+                        onCardClick = { onArticleClick(article.id) },
+                        onReadNowClick = { onArticleClick(article.id) },
                         onSeeAllClick = {
                             // TODO(all-articles-screen): Mở màn hình "Tất cả bài nổi bật".
 
@@ -143,10 +137,7 @@ fun HomeScreen(
                         isRefreshing = uiState.isRefreshing,
                         onRefreshClick = viewModel::onRefreshClick,
                         onBookmarkToggle = viewModel::onToggleBookmark,
-                        onArticleClick = { articleId ->
-                            // TODO(detail-screen): Mở chi tiết cho articleId.
-
-                        },
+                        onArticleClick = onArticleClick,
                         onSeeMoreClick = {
                             // TODO(all-articles-screen): Mở màn hình "Tất cả bài mới nhất".
 

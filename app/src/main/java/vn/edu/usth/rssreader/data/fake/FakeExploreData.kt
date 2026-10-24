@@ -35,6 +35,7 @@ object FakeExploreTrending {
         Article(
             id = "t1",
             title = "OpenAI và các tập đoàn công nghệ chạy đua trung tâm dữ liệu mới",
+            link = "https://dantri.com.vn/cong-nghe/doanh-nghiep-can-lam-gi-de-bao-ve-trang-web-truoc-lo-hong-php-20261022215438274.htm",
             imageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuC8hWzF9H1my-0TMQf2QO_1sHc7xAKqRNCKLs1j7pdHjODqsbK-CCVNqlZYj0CSiZ_9LJu2snQgtaEogMq-eqiNDMoXYEzbvmHhEeWttE-SJI6_yWaQDDRNC0t3BcCvGLmmV_9__hv5ZKeafvvh3r0e6-aOVkcdVPIGV8KCwDk443SrGyHvkkNP8ds9FNBwBmnMADji30mn6dCaG1JmGhp0qaZU-0gqU4AfoqEgsAKmMyvavd2mSwih",
             category = AIBadge,
             source = "VnExpress",
@@ -43,6 +44,7 @@ object FakeExploreTrending {
         Article(
             id = "t2",
             title = "Thị trường pin thể rắn và bước nhảy vọt xe điện 2025",
+            link = "https://dantri.com.vn/khoa-hoc/ha-noi-ho-tro-toi-100-chi-phi-dau-tu-ha-tang-khoa-hoc-cong-nghe-20261022154219677.htm",
             imageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuDjKzrx-YV03HNqOd8vsMqbge2wbNSw5v0mBk8cLmASkZVAB6ucSxwdCZUE_mD3_DmxGvr6xEESCfaeTvPzY3MVU6BNqT4AEUHYY7f3zWI7SKz7lOfuagDgM57pO7Zj1lLvt1Rdqkv80mJCRXdifT_O83k3OakRkwtBUZr0t2lkp-05tao5lJtnZu-IdBrZEd8cX1HI70SVbqyPz7kU16oj0moyrXR1sKZqswl30XyKQNQ1DyZY13lb",
             category = EVBadge,
             source = "VnExpress",
@@ -51,6 +53,7 @@ object FakeExploreTrending {
         Article(
             id = "t3",
             title = "Dòng vốn mạo hiểm quay trở lại hệ sinh thái khởi nghiệp số",
+            link = "https://dantri.com.vn/giai-tri/g-dragon-thu-linh-bigbang-quan-khan-mac-ao-ret-kin-mit-bay-sang-viet-nam-20261023200057523.htm",
             imageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuDQCCH7uR34Pjo8gA1ER-esNoozuWtSIWbalKZDJvLLjSuOclGy2lPXkEjiV63ny3eQAo6P0U6Nm7ynypcWRbot1JIHWeY0ME46UxqMzesq8-lsWVPQytqKA_vPGispfyrI0GIXdzjNmhOyXjPz5hRa9Apre91E3fmFNQJfv59TupBiJfXmvJydxABuyeabsOltxS4ymFnzdUvkC5ohcL9mXVpJ8V6cUUGkSbsgbPMntfjkFm4HnlUB",
             category = DigitalBadge,
             source = "VnExpress",
@@ -75,6 +78,7 @@ object FakeExploreArticles {
         Article(
             id = "e-a1",
             title = "Ứng dụng Trí tuệ nhân tạo giúp nâng cao năng suất kỹ sư phần mềm Việt Nam",
+            link = "https://dantri.com.vn/cong-nghe/doanh-nghiep-can-lam-gi-de-bao-ve-trang-web-truoc-lo-hong-php-20261022215438274.htm",
             imageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuDBcLItdzdckgDhLJW3WqgpwGfwsZkIG3NXVy6OINDprXLIECebN1nQf5ZkaBGn__frqA4hUs68uFYLAiFf5filLLPfTtU5P24GYUcZF7nceytF9OpgAm1k_KWE3Nsudzk8pWef__T1ErmYitS5N1x6DxSODFBkBwP9m5HII5vRS5RBeafj-zEBjg2fJJxtAxQ4K9LfUNXIT-V7-oOprBk_Hj6d-TmByq-bhmuU4-cwK5vHJspmeUzd",
             category = Tech,
             source = "Dân trí",
@@ -84,6 +88,7 @@ object FakeExploreArticles {
         Article(
             id = "e-a2",
             title = "Làn sóng đầu tư vào chip bán dẫn và hệ sinh thái Trí tuệ nhân tạo tại Đà Nẵng",
+            link = "https://dantri.com.vn/giao-duc/tphcm-de-xuat-mo-truong-cong-chat-luong-cao-20261023154456310.htm",
             imageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuBqOaNhcIXLuGiACIFMVWON--wRq5xtm8_hJ5Y3zR0fpvyu2J4Dfyt03ICyfhzrOrsbDgBqHo5mzhZYQZ9Mp0Cg5inQzvijYKf7pXiEoELMIOvqvoIZzuEQ6FXR_YrPcMSdragLSAkdC9t7dwhTDtvn7rQyrli6KNvRcoq-O2b6T94Z8-1YjstXDaV_d4xl9rF_QaNcf5TB1dEDgMPf2cskvlmsKCoXaRYn6P-lHC8FSy0QjWaKXVZp",
             category = Business,
             source = "Dân trí",
@@ -93,6 +98,7 @@ object FakeExploreArticles {
         Article(
             id = "e-a3",
             title = "Bệnh viện triển khai mô hình Trí tuệ nhân tạo chẩn đoán sớm ung thư phổi qua phim X-quang",
+            link = "https://dantri.com.vn/suc-khoe/ca-benh-nao-mo-cau-moi-nhat-o-tphcm-hien-ra-sao-20261022154807959.htm",
             imageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuDFMoTNxQi38cOUJqZoB4hgq20sQKrJ68tOYpvFprexfm-hJtp6OeYd93732VwvU3Kg49DypEpzQK4LNiyzuB45wUtqRhIgsn4T213KLcFMW1YjnNkFJBREKhmDniGHhJW-y6nSozNuLH_ytCcf4lLr1dakSjaqgUCZaE_ZrzjMj1IIRCld8zmCTXugKWCkqm-wrFhXarbRXUCdIFwYNvIIA5xOIJwA116Y6EyraJw7bzNJ-mp8ypZI",
             category = Health,
             source = "Dân trí",
@@ -102,6 +108,7 @@ object FakeExploreArticles {
         Article(
             id = "e-a4",
             title = "Đại học Quốc gia mở rộng chuyên ngành đào tạo Trí tuệ nhân tạo ứng dụng thực tiễn",
+            link = "https://dantri.com.vn/giai-tri/nha-van-tu-choi-40-trieu-usd-tranh-chap-quyen-nuoi-con-voi-elon-musk-20261023161604993.htm",
             imageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuDpyvfAMIVcG56AVDEhWqV8m8WnVdvo0HKp53LmSZeKMOaXE_8LxUM2pbZOREz96fewu3akpTTnXP5dPwjJvM44auPpHg3UKB7i6Aq4kSG7mIfHIEplhhz5P6WhTmYRotZg7F_UBpRn5CDJHjBF64cqvjrwX5QtMMdNkfm_fhA5A1IKdBEMw_ehUG-Oub9xddqF4O2vy-KQWvP1EE1TsQb5hajGqnfbiLHF9TIMr_0Zx43HEcpfxT4V",
             category = Education,
             source = "Dân trí",

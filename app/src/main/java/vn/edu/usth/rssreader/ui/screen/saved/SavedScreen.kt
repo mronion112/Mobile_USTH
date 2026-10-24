@@ -65,6 +65,7 @@ import java.time.Instant
 @Composable
 fun SavedScreen(
     modifier: Modifier = Modifier,
+    onArticleClick: (String) -> Unit = {},
     viewModel: SavedViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -73,7 +74,8 @@ fun SavedScreen(
         modifier = modifier,
         onUnsave = viewModel::onUnsave,
         onCategorySelected = viewModel::onCategorySelected,
-        onSortModeChange = viewModel::onSortModeChange
+        onSortModeChange = viewModel::onSortModeChange,
+        onArticleClick = onArticleClick
     )
 }
 
@@ -83,7 +85,8 @@ private fun SavedContent(
     modifier: Modifier = Modifier,
     onUnsave: (Article) -> Unit = {},
     onCategorySelected: (String) -> Unit = {},
-    onSortModeChange: (SavedSortMode) -> Unit = {}
+    onSortModeChange: (SavedSortMode) -> Unit = {},
+    onArticleClick: (String) -> Unit = {}
 ) {
     val bookmarked = uiState.bookmarkedArticles
     val isAllSelected = uiState.selectedCategoryId == FakeCategories.All.id
@@ -213,7 +216,7 @@ private fun SavedContent(
                         // TODO(share): Chia sẻ qua Intent.ACTION_SEND (cần field link trước)
                     },
                     onClick = {
-                        // TODO(detail-screen): Mở chi tiết cho article.id = "${article.id}"
+                        onArticleClick(article.id)
                     }
                 )
             }
