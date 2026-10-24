@@ -10,9 +10,11 @@ import vn.edu.usth.rssreader.ui.theme.SurfaceCanvas
 
 @Composable
 fun AppScaffold(
-    currentDestination: Destination,
+    currentDestination: Destination?,
     onNavigate: (Destination) -> Unit,
     modifier: Modifier = Modifier,
+    showBottomBar: Boolean = true,
+    showTopBar: Boolean = true,
     onSearchClick: () -> Unit = {},
     onAvatarClick: () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit
@@ -21,17 +23,21 @@ fun AppScaffold(
         modifier = modifier,
         containerColor = SurfaceCanvas,
         topBar = {
-            AppTopBar(
-                title = currentDestination.title,
-                onSearchClick = onSearchClick,
-                onAvatarClick = onAvatarClick
-            )
+            if (showTopBar && currentDestination != null) {
+                AppTopBar(
+                    title = currentDestination.title,
+                    onSearchClick = onSearchClick,
+                    onAvatarClick = onAvatarClick
+                )
+            }
         },
         bottomBar = {
-            AppBottomNav(
-                currentDestination = currentDestination,
-                onNavigate = onNavigate
-            )
+            if (showBottomBar && currentDestination != null) {
+                AppBottomNav(
+                    currentDestination = currentDestination,
+                    onNavigate = onNavigate
+                )
+            }
         },
         content = content
     )

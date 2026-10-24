@@ -31,6 +31,7 @@ import vn.edu.usth.rssreader.ui.theme.SurfaceCanvas
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    onArticleClick: (String) -> Unit = {},
     viewModel: HomeViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -82,6 +83,12 @@ fun HomeScreen(
             bookmarked = uiState.featuredArticle?.let { uiState.savedArticleIds.contains(it.id) } ?: false,
             onBookmarkToggle = { bookmarked ->
                 uiState.featuredArticle?.let { viewModel.onToggleBookmark(it.id, bookmarked) }
+            },
+            onCardClick = {
+                uiState.featuredArticle?.let { onArticleClick(it.id) }
+            },
+            onReadNowClick = {
+                uiState.featuredArticle?.let { onArticleClick(it.id) }
             }
         )
 
@@ -93,7 +100,8 @@ fun HomeScreen(
             savedIds = uiState.savedArticleIds,
             isRefreshing = uiState.isRefreshing,
             onRefreshClick = viewModel::onRefreshClick,
-            onBookmarkToggle = viewModel::onToggleBookmark
+            onBookmarkToggle = viewModel::onToggleBookmark,
+            onArticleClick = onArticleClick
         )
 
         Spacer(Modifier.height(20.dp))

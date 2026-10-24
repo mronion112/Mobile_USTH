@@ -32,12 +32,13 @@ object FakeArticles {
 
     val featured: Article = Article(
         id = "a1",
-        title = "Hội nghị thượng đỉnh kinh tế toàn cầu đạt thỏa thuận chuyển đổi xanh lịch sử",
-        description = "Đại diện hơn 120 quốc gia đã thông qua nghị định khung với cam kết giải ngân 800 tỷ USD vào các nguồn năng lượng sạch và hạ tầng bền vững giai đoạn 2025–2030.",
+        title = "Nga - Ukraine ngừng bắn ở thành phố tiền tuyến sau tín hiệu hòa bình",
+        description = "Nhà Trắng cho biết Nga và Ukraine đã nhất trí về lệnh ngừng bắn tại thành phố tiền tuyến sau các tín hiệu đàm phán hòa bình gần đây.",
+        link = "https://dantri.com.vn/the-gioi/nga-ukraine-ngung-ban-o-thanh-pho-tien-tuyen-sau-tin-hieu-hoa-binh-20261023214149885.htm",
         imageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuD_WH7OY8DHmRdjivtwUl7GaG5g_tdCzPwWGlScTK-0uw9AbmrdlLIHF2MCT0cXcZwbRjfmZjyArRPvEPImcuRvw2tqmtnaJkdO93NRfzSl0ITpYSMiOtaMnZ-fxbkmBJ4yYtCSshhnmIWJVkUi0qrwPiOU0OYvrl9NONp5OusZOdNLB_xh7W8MO8DydFjNbMDZOiBqxLkwyjoUKmpSHReDrdyQ83siVvJF3vVNzKLH47xOcTdPVCQf",
         category = FakeCategories.World,
         source = "Báo Dân trí",
-        author = "Ban Kinh tế Quốc tế",
+        author = "Ban Thế giới",
         publishedAt = minutesAgo(20),
         viewCount = 3_400,
         isRssVerified = true
@@ -46,26 +47,35 @@ object FakeArticles {
     val latest: List<Article> = listOf(
         Article(
             id = "a2",
-            title = "Việt Nam đẩy mạnh đầu tư hạ tầng bán dẫn và công nghệ AI bán đảo",
+            title = "Chuyên mục Sức mạnh số đổi tên thành Công nghệ",
+            description = "Chuyên mục Sức mạnh số của báo Dân trí đổi tên thành Công nghệ với 4 mục chính, tiếp tục cung cấp thông tin toàn diện, đa chiều.",
+            link = "https://dantri.com.vn/cong-nghe/chuyen-muc-suc-manh-so-doi-ten-thanh-cong-nghe-20250215235842924.htm",
             imageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuDO5dWWL4TpxnsHnYjF6x5ggfiDuwY7jKtn57IleVMWbqXHdMaiiT6CVhKCbd4ulxV8oAgrtO3axoR5RCToHg_In3tsWrNPLCO7q68dCeyoRec-AlIbzwQA0sKB9dmj6ihcUBN6ucBOZ2IoMO_sIFst7q66xWF6KtM9dwdtFacmXmVxg63TeGR9JP9kKTAve8rIdjEtFGFNOtvG1iFaAWDqNm2OdJ6RmXZRRCEDdQUfTnoBiGaPdDol",
             category = FakeCategories.Tech,
             source = "Dân trí • Tin số",
+            author = "Thế Anh",
             publishedAt = minutesAgo(35)
         ),
         Article(
             id = "a3",
-            title = "Giá vàng hôm nay biến động mạnh khi thị trường tài chính quốc tế phản ứng",
+            title = "Đề xuất bỏ giấy phép kinh doanh rượu, VCCI góp ý gì?",
+            description = "Bộ Công Thương đề xuất bỏ giấy phép kinh doanh rượu, chuyển sang quản lý theo điều kiện và hậu kiểm nhằm tạo thông thoáng cho doanh nghiệp.",
+            link = "https://dantri.com.vn/kinh-doanh/de-xuat-bo-giay-phep-kinh-doanh-ruou-vcci-gop-y-gi-20261023191224634.htm",
             imageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuAABLTHXb4pWwRB7RQP35KJ-1CnTlD4sARZd1sOsHNKD_KT00cLOvHp0_BYdyPEStixWtYinEE8b052zwzmPSdlJ3EdUBnEXkquzKSh_9nYEGiKN8Crqurm5KPCgy2tnM9ekmwRFbu5N5iTccRsPSR-oeyMBYAfGR2xWv60ZzHMzen0Q8LHff5BMt1jIGtqU8z66i0WoBKYk-kT-lIK4CTXwiEZEAC0z8LioXkzVHL_iBwvLw26xnUT",
             category = FakeCategories.Business,
             source = "Dân trí • Tài chính",
+            author = "Nguyễn Vy",
             publishedAt = minutesAgo(60)
         ),
         Article(
             id = "a4",
-            title = "Đội tuyển bóng đá quốc gia chuẩn bị cho chiến dịch vòng loại châu Á",
+            title = "Thể Công Viettel hòa CLB Bắc Ninh, SL Nghệ An đánh bại HAGL",
+            description = "Thể Công Viettel và CLB Bắc Ninh đã tạo ra màn rượt đuổi tỷ số nghẹt thở trong trận giao hữu chuẩn bị cho mùa giải mới.",
+            link = "https://dantri.com.vn/the-thao/the-cong-viettel-hoa-clb-bac-ninh-sl-nghe-an-danh-bai-hagl-20261023215309638.htm",
             imageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuB46Z9o4YQnw_xGL0jzePdumvWrq-E6nu-KsdUxd1gpSO7elh9iVReMPrLO4tXWB-734yh5qYZadSOEa9PXXlaW_J6K16deUuBU-2o6U7S05jWqo9cVWj1b0EtaG1dWxQrUmg3eOyLywTnjFa6Lz8J-6LMJbne4VBBIUhjp9Hh2g3AqbPqZ5wCNXwYALZkX6ECAQf3ETJ0OoodxL4Jj3_YBwXfOkzTqRU8jTdjeLI5rMkHzcih1dGq5",
             category = FakeCategories.Sports,
             source = "Dân trí • Thể thao",
+            author = "Hoàng Dũng",
             publishedAt = minutesAgo(120)
         )
     )
