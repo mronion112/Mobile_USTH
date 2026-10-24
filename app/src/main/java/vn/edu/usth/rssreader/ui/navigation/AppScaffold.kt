@@ -9,19 +9,22 @@ import vn.edu.usth.rssreader.ui.theme.SurfaceCanvas
 
 @Composable
 fun AppScaffold(
-    currentDestination: Destination,
+    currentDestination: Destination?,
     onNavigate: (Destination) -> Unit,
     modifier: Modifier = Modifier,
+    showBottomBar: Boolean = true,
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
         modifier = modifier,
         containerColor = SurfaceCanvas,
         bottomBar = {
-            AppBottomNav(
-                currentDestination = currentDestination,
-                onNavigate = onNavigate
-            )
+            if (showBottomBar && currentDestination != null) {
+                AppBottomNav(
+                    currentDestination = currentDestination,
+                    onNavigate = onNavigate
+                )
+            }
         },
         content = content
     )

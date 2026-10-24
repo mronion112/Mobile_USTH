@@ -70,7 +70,10 @@ private data class FolderEntry(
 )
 
 @Composable
-fun SavedScreen(modifier: Modifier = Modifier) {
+fun SavedScreen(
+    modifier: Modifier = Modifier,
+    onArticleClick: (String) -> Unit = {}
+) {
 
     var selectedFolderId by rememberSaveable { mutableStateOf("all") }
 
@@ -212,7 +215,7 @@ fun SavedScreen(modifier: Modifier = Modifier) {
                         article = article,
                         onUnsave = { removedIds = removedIds + article.id },
                         onShareClick = { /* no-op */ },
-                        onClick = { /* no-op */ }
+                        onClick = { onArticleClick(article.id) }
                     )
                 }
             }
