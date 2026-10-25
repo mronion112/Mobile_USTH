@@ -46,9 +46,8 @@ Do not use amber or red as normal navigation color. Error color never communicat
 
 ## Shared component requirements
 
-### Top and bottom navigation
+### Bottom navigation
 
-- Top utility bar is clean/white or lightly frosted. Keep search and profile/utility actions visually secondary.
 - Bottom navigation is fixed/elevated: 64dp plus system safe-area inset, white, top divider and four items: Home, Explore, Bookmarks, RSS Sources.
 - Active icon/label uses teal; inactive uses `#94A3B8`. Icon labels use 11sp/700.
 
