@@ -31,13 +31,6 @@ android {
     buildFeatures {
         compose = true
     }
-
-    sourceSets {
-        getByName("main") {
-            kotlin.directories.add("../src/S02-article-detail")
-            java.directories.add("../src/S02-article-detail")
-        }
-    }
 }
 
 dependencies {

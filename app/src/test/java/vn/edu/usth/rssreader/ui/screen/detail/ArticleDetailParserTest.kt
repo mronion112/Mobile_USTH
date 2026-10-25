@@ -1,4 +1,4 @@
-package vn.edu.usth.rssreader
+package vn.edu.usth.rssreader.ui.screen.detail
 
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -7,8 +7,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import vn.edu.usth.rssreader.data.model.Article
 import vn.edu.usth.rssreader.data.model.Category
-import vn.edu.usth.rssreader.ui.screen.detail.ArticleContentBlock
-import vn.edu.usth.rssreader.ui.screen.detail.ArticleHtmlParser
 import java.time.Instant
 
 class ArticleDetailParserTest {
