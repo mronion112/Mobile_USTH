@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "id": 1,
+      "name": "Dân trí — Thời sự",
+      "rssUrl": "https://dantri.com.vn/rss/thoi-su.rss",
+      "category": { "id": "thoi-su", "name": "Thời sự", "colorIndex": 5 },
+      "status": "ACTIVE",
+      "lastFetchedAt": "2026-10-22T14:58:00Z",
+      "lastError": null,
+      "createdAt": "2026-10-06T09:00:00Z"
+    },
+    {
+      "id": 2,
+      "name": "Dân trí — Công nghệ",
+      "rssUrl": "https://dantri.com.vn/rss/suc-manh-so.rss",
+      "category": { "id": "cong-nghe", "name": "Công nghệ", "colorIndex": 2 },
+      "status": "ACTIVE",
+      "lastFetchedAt": "2026-10-22T14:50:00Z",
+      "lastError": null,
+      "createdAt": "2026-10-06T09:00:00Z"
+    },
+    {
+      "id": 3,
+      "name": "Dân trí — Kinh doanh",
+      "rssUrl": "https://dantri.com.vn/rss/kinh-doanh.rss",
+      "category": { "id": "kinh-doanh", "name": "Kinh doanh", "colorIndex": 1 },
+      "status": "FETCHING",
+      "lastFetchedAt": "2026-10-22T14:30:00Z",
+      "lastError": null,
+      "createdAt": "2026-10-06T09:00:00Z"
+    },
+    {
+      "id": 4,
+      "name": "Dân trí — Thế giới",
+      "rssUrl": "https://dantri.com.vn/rss/the-gioi.rss",
+      "category": { "id": "the-gioi", "name": "Thế giới", "colorIndex": 0 },
+      "status": "ERROR",
+      "lastFetchedAt": "2026-10-22T14:00:00Z",
+      "lastError": "Lỗi kết nối",
+      "createdAt": "2026-10-06T09:00:00Z"
+    }
+  ]
+}

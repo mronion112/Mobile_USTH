@@ -7,7 +7,7 @@
 
 - Initialize one Android app module in Kotlin with a local store (Room) as the single source of truth; no backend, no remote service, no committed secrets.
 - Establish navigation routes: Home, Category, Search, Bookmarks, RSS Sources and Article Detail.
-- Provide the mobile layout from mockups: top bar and four-item bottom navigation (Trang chủ, Khám phá, Đã lưu, Nguồn RSS).
+- Provide the mobile layout from mockups: edge-to-edge content with a four-item bottom navigation (Trang chủ, Khám phá, Đã lưu, Nguồn RSS) and no top bar.
 - Own the on-device RSS fetcher (HTTP + XML parser), the local repository, ViewModel/state-holder convention and error mapping.
 - Publish theme tokens from `DESIGN2.md`: Editorial Pulse teal/slate palette, Plus Jakarta Sans/Inter hierarchy, rounded cards and elevated surfaces.
 
@@ -19,7 +19,7 @@
 
 ## DESIGN2 shell requirements
 
-- Canvas is `#F8FAFC`; top utility bar is white/lightly frosted and visually quiet.
+- Canvas is `#F8FAFC`. Screens render edge to edge with 16dp mobile margins; there is no top bar.
 - Bottom bar is fixed, white, elevated and `64dp + safe-area`; destinations are Home, Explore, Bookmarks and RSS Sources.
 - Active nav uses teal; inactive icon/label uses `#94A3B8`. Labels use Plus Jakarta Sans 11sp/700.
 - Use 16dp mobile margins and preserve insets when a screen scrolls below the bottom bar.
@@ -29,7 +29,7 @@
 Feature screens receive plain repository models, never raw XML or network payloads.
 
 ```kotlin
-data class Category(val id: Long, val name: String, val slug: String)
+data class Category(val id: String, val name: String, val slug: String)
 data class SourceRef(val id: Long, val name: String)
 
 data class Article(
