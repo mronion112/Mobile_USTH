@@ -11,8 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.RssFeed
 import androidx.compose.material3.Icon
@@ -30,13 +30,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import vn.edu.usth.rssreader.ui.components.ErrorState
+import vn.edu.usth.rssreader.ui.components.LoadingState
 import vn.edu.usth.rssreader.ui.screen.home.components.CategoryStrip
 import vn.edu.usth.rssreader.ui.screen.home.components.FeaturedSection
 import vn.edu.usth.rssreader.ui.screen.home.components.GreetingRow
 import vn.edu.usth.rssreader.ui.screen.home.components.HomeSearchBar
-import vn.edu.usth.rssreader.ui.screen.home.components.LatestSection
-import vn.edu.usth.rssreader.ui.components.ErrorState
-import vn.edu.usth.rssreader.ui.components.LoadingState
+import vn.edu.usth.rssreader.ui.screen.home.components.LatestSectionHeader
+import vn.edu.usth.rssreader.ui.screen.home.components.NewsListItem
 import vn.edu.usth.rssreader.ui.screen.home.components.RssStatusBar
 import vn.edu.usth.rssreader.ui.theme.Primary
 import vn.edu.usth.rssreader.ui.theme.SurfaceCanvas
@@ -59,104 +60,122 @@ fun HomeScreen(
         }
     }
 
-    Column(
+    LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .background(SurfaceCanvas)
-            .verticalScroll(rememberScrollState())
     ) {
-        Spacer(Modifier.height(12.dp))
+        item(key = "top-spacer") { Spacer(Modifier.height(12.dp)) }
 
         // ─── Header + Search + Category (luôn hiển thị) ───
         uiState.reader?.let { reader ->
-            GreetingRow(
-                greeting = uiState.greeting,
-                reader = reader,
-                isSyncing = uiState.isSyncing,
-                hasUnreadNotifications = uiState.hasUnreadNotifications,
-                onSyncClick = viewModel::onSyncClick,
-                onNotificationClick = viewModel::onNotificationClick
+            item(key = "greeting") {
+                GreetingRow(
+                    greeting = uiState.greeting,
+                    reader = reader,
+                    isSyncing = uiState.isSyncing,
+                    hasUnreadNotifications = uiState.hasUnreadNotifications,
+                    onSyncClick = viewModel::onSyncClick,
+                    onNotificationClick = viewModel::onNotificationClick
+                )
+            }
+        }
+
+        item(key = "search-spacer") { Spacer(Modifier.height(20.dp)) }
+
+        item(key = "search") {
+            HomeSearchBar(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                onClick = onSearchClick
             )
         }
 
-        Spacer(Modifier.height(20.dp))
-
-        HomeSearchBar(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            onClick = onSearchClick
-        )
-
-        Spacer(Modifier.height(20.dp))
+        item(key = "category-spacer") { Spacer(Modifier.height(20.dp)) }
 
         if (uiState.categories.size > 1) {
-            CategoryStrip(
-                categories = uiState.categories,
-                selectedCategoryId = uiState.selectedCategoryId,
-                onCategorySelected = viewModel::onCategorySelected,
-                syncedFeedCount = uiState.syncedFeedCount
-            )
+            item(key = "categories") {
+                CategoryStrip(
+                    categories = uiState.categories,
+                    selectedCategoryId = uiState.selectedCategoryId,
+                    onCategorySelected = viewModel::onCategorySelected,
+                    syncedFeedCount = uiState.syncedFeedCount
+                )
+            }
+            item(key = "content-spacer") { Spacer(Modifier.height(20.dp)) }
         }
-
-        Spacer(Modifier.height(20.dp))
 
         // ─── Content theo trạng thái ───
         when {
-            uiState.isInitialLoading -> LoadingState()
+            uiState.isInitialLoading -> item(key = "loading") { LoadingState() }
 
-            !uiState.hasAnySource -> NoSourceState()
+            !uiState.hasAnySource -> item(key = "no-source") { NoSourceState() }
 
             uiState.refreshError != null &&
                     uiState.featuredArticle == null &&
-                    uiState.latestArticles.isEmpty() -> ErrorState(
-                        message = uiState.refreshError!!,
-                        onRetry = viewModel::onRefreshClick
-                    )
+                    uiState.latestArticles.isEmpty() -> item(key = "error") {
+                ErrorState(
+                    message = uiState.refreshError!!,
+                    onRetry = viewModel::onRefreshClick
+                )
+            }
 
-            uiState.featuredArticle == null && uiState.latestArticles.isEmpty() -> EmptyFilterState()
+            uiState.featuredArticle == null && uiState.latestArticles.isEmpty() ->
+                item(key = "empty-filter") { EmptyFilterState() }
 
             else -> {
                 uiState.featuredArticle?.let { article ->
-                    FeaturedSection(
-                        article = article,
-                        bookmarked = uiState.savedArticleIds.contains(article.id),
-                        onBookmarkToggle = { bookmarked ->
-                            viewModel.onToggleBookmark(article, bookmarked)
-                        },
-                        onCardClick = { onArticleClick(article.id) },
-                        onReadNowClick = { onArticleClick(article.id) },
-                        onSeeAllClick = {
-                            // TODO(all-articles-screen): Mở màn hình "Tất cả bài nổi bật".
-
-                        }
-                    )
-                    Spacer(Modifier.height(20.dp))
+                    item(key = "featured") {
+                        FeaturedSection(
+                            article = article,
+                            bookmarked = uiState.savedArticleIds.contains(article.id),
+                            onBookmarkToggle = { bookmarked ->
+                                viewModel.onToggleBookmark(article, bookmarked)
+                            },
+                            onCardClick = { onArticleClick(article.id) },
+                            onReadNowClick = { onArticleClick(article.id) },
+                            onSeeAllClick = {
+                                // TODO(all-articles-screen): Mở màn hình "Tất cả bài nổi bật".
+                            }
+                        )
+                    }
+                    item(key = "featured-spacer") { Spacer(Modifier.height(20.dp)) }
                 }
 
                 if (uiState.latestArticles.isNotEmpty()) {
-                    LatestSection(
-                        articles = uiState.latestArticles,
-                        savedIds = uiState.savedArticleIds,
-                        isRefreshing = uiState.isRefreshing,
-                        onRefreshClick = viewModel::onRefreshClick,
-                        onBookmarkToggle = viewModel::onToggleBookmark,
-                        onArticleClick = onArticleClick,
-                        onSeeMoreClick = {
-                            // TODO(all-articles-screen): Mở màn hình "Tất cả bài mới nhất".
+                    item(key = "latest-header") {
+                        LatestSectionHeader(
+                            isRefreshing = uiState.isRefreshing,
+                            onRefreshClick = viewModel::onRefreshClick
+                        )
+                    }
+                    item(key = "latest-spacer") { Spacer(Modifier.height(8.dp)) }
 
-                        }
-                    )
-                    Spacer(Modifier.height(20.dp))
+                    items(items = uiState.latestArticles, key = { it.id }) { article ->
+                        NewsListItem(
+                            article = article,
+                            bookmarked = uiState.savedArticleIds.contains(article.id),
+                            onBookmarkToggle = { bookmarked ->
+                                viewModel.onToggleBookmark(article, bookmarked)
+                            },
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
+                            onClick = { onArticleClick(article.id) }
+                        )
+                    }
+
+                    item(key = "latest-end-spacer") { Spacer(Modifier.height(8.dp)) }
                 }
             }
         }
 
         // ─── Status bar luôn hiển thị ───
-        RssStatusBar(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            online = uiState.hasAnySource && uiState.refreshError == null
-        )
+        item(key = "status-bar") {
+            RssStatusBar(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                online = uiState.hasAnySource && uiState.refreshError == null
+            )
+        }
 
-        Spacer(Modifier.height(32.dp))
+        item(key = "bottom-spacer") { Spacer(Modifier.height(32.dp)) }
     }
 }
 

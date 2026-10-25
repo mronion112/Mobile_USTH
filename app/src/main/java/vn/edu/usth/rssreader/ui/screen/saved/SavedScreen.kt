@@ -13,14 +13,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Checklist
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.DropdownMenu
@@ -28,7 +26,6 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,7 +36,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -112,123 +108,106 @@ private fun SavedContent(
     // Nếu user unsave hết bài của category đang chọn → ViewModel đã reset;
     // nhưng để an toàn nếu ViewModel chưa kịp, guard ở đây cũng không sao.
 
-    Column(
+    LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .background(SurfaceCanvas)
-            .verticalScroll(rememberScrollState())
     ) {
-        Spacer(Modifier.height(8.dp))
+        item(key = "top-spacer") { Spacer(Modifier.height(8.dp)) }
 
-        SavedSummaryCard(
-            totalCount = bookmarked.size,
-            lastSavedAt = lastSavedAt,
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
-
-        Spacer(Modifier.height(20.dp))
-
-        // ─── Header "DANH MỤC" ───
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "DANH MỤC",
-                color = TextSecondary,
-                fontSize = 12.sp,
-                lineHeight = 16.sp,
-                fontWeight = FontWeight.SemiBold,
-                letterSpacing = 0.6.sp
+        item(key = "summary") {
+            SavedSummaryCard(
+                totalCount = bookmarked.size,
+                lastSavedAt = lastSavedAt,
+                modifier = Modifier.padding(horizontal = 16.dp)
             )
         }
 
-        Spacer(Modifier.height(8.dp))
+        item(key = "summary-spacer") { Spacer(Modifier.height(20.dp)) }
 
-        // ─── Pill row (gộp source + bookmark) ───
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(items = uiState.displayCategories, key = { it.id }) { category ->
-                val count = if (category.id == FakeCategories.All.id) {
-                    bookmarked.size
-                } else {
-                    bookmarked.count { it.category.id == category.id }
-                }
-                FolderPill(
-                    category = if (category.id == FakeCategories.All.id) null else category,
-                    count = count,
-                    selected = category.id == uiState.selectedCategoryId,
-                    onClick = { onCategorySelected(category.id) }
+        item(key = "section-header") {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "DANH MỤC",
+                    color = TextSecondary,
+                    fontSize = 12.sp,
+                    lineHeight = 16.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    letterSpacing = 0.6.sp
                 )
             }
         }
 
-        Spacer(Modifier.height(16.dp))
+        item(key = "header-spacer") { Spacer(Modifier.height(8.dp)) }
 
-        // ─── Filter bar (bỏ "Chủ đề", giữ "Lưu gần nhất" static + nút chọn) ───
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            SortModeChip(
-                current = uiState.sortMode,
-                onSelect = onSortModeChange
-            )
-//            Box(
-//                modifier = Modifier
-//                    .size(32.dp)
-//                    .clip(RoundedCornerShape(8.dp))
-//                    .clickable {
-//                        // TODO(saved-mode): Multi-select để xóa hàng loạt
-//                    },
-//                contentAlignment = Alignment.Center
-//            ) {
-//                Icon(
-//                    imageVector = Icons.Filled.Checklist,
-//                    contentDescription = "Chế độ chọn",
-//                    tint = TextMuted,
-//                    modifier = Modifier.size(20.dp)
-//                )
-//            }
-        }
-
-        Spacer(Modifier.height(12.dp))
-
-        // ─── List ───
-        Column(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            visibleArticles.forEach { article ->
-                SavedArticleItem(
-                    article = article,
-                    onUnsave = { onUnsave(article) },
-                    onShareClick = {
-                        // TODO(share): Chia sẻ qua Intent.ACTION_SEND (cần field link trước)
-                    },
-                    onClick = {
-                        onArticleClick(article.id)
+        item(key = "categories") {
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(items = uiState.displayCategories, key = { it.id }) { category ->
+                    val count = if (category.id == FakeCategories.All.id) {
+                        bookmarked.size
+                    } else {
+                        bookmarked.count { it.category.id == category.id }
                     }
+                    FolderPill(
+                        category = if (category.id == FakeCategories.All.id) null else category,
+                        count = count,
+                        selected = category.id == uiState.selectedCategoryId,
+                        onClick = { onCategorySelected(category.id) }
+                    )
+                }
+            }
+        }
+
+        item(key = "categories-spacer") { Spacer(Modifier.height(16.dp)) }
+
+        item(key = "sort-bar") {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                SortModeChip(
+                    current = uiState.sortMode,
+                    onSelect = onSortModeChange
                 )
             }
         }
 
-        // ─── 2 loại empty state ───
+        item(key = "sort-spacer") { Spacer(Modifier.height(12.dp)) }
+
+        items(items = visibleArticles, key = { it.id }) { article ->
+            SavedArticleItem(
+                article = article,
+                onUnsave = { onUnsave(article) },
+                onShareClick = {
+                    // TODO(share): Chia sẻ qua Intent.ACTION_SEND (cần field link trước)
+                },
+                onClick = {
+                    onArticleClick(article.id)
+                },
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
+            )
+        }
+
         when {
-            bookmarked.isEmpty() -> {
+            bookmarked.isEmpty() -> item(key = "empty-saved") {
                 Spacer(Modifier.height(16.dp))
                 EmptySavedState(modifier = Modifier.padding(horizontal = 16.dp))
             }
-            visibleArticles.isEmpty() -> {
+
+            visibleArticles.isEmpty() -> item(key = "empty-filter") {
                 Spacer(Modifier.height(16.dp))
                 EmptyFilterState(
                     categoryName = uiState.displayCategories
@@ -239,11 +218,13 @@ private fun SavedContent(
             }
         }
 
-        Spacer(Modifier.height(20.dp))
+        item(key = "sync-spacer") { Spacer(Modifier.height(20.dp)) }
 
-        FeedSyncBar(modifier = Modifier.padding(horizontal = 16.dp))
+        item(key = "sync-bar") {
+            FeedSyncBar(modifier = Modifier.padding(horizontal = 16.dp))
+        }
 
-        Spacer(Modifier.height(24.dp))
+        item(key = "bottom-spacer") { Spacer(Modifier.height(24.dp)) }
     }
 }
 
