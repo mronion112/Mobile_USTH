@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -70,12 +71,19 @@ fun AppNavHost(
     var focusExploreSearch by remember { mutableStateOf(false) }
 
     val navigateToTab: (Destination) -> Unit = { destination ->
-        navController.navigate(destination.route) {
-            popUpTo(navController.graph.findStartDestination().id) {
-                saveState = true
+        // AnimatedContent retargets mid-flight slides, so a second tap during
+        // the 300ms transition makes two screens overlap. Ignore taps until
+        // the current destination is RESUMED again.
+        val entry = navController.currentBackStackEntry
+        val transitionSettled = entry?.lifecycle?.currentState?.isAtLeast(Lifecycle.State.RESUMED) == true
+        if (transitionSettled) {
+            navController.navigate(destination.route) {
+                popUpTo(navController.graph.findStartDestination().id) {
+                    saveState = true
+                }
+                launchSingleTop = true
+                restoreState = true
             }
-            launchSingleTop = true
-            restoreState = true
         }
     }
     val navigateToArticle: (String) -> Unit = { articleId ->
