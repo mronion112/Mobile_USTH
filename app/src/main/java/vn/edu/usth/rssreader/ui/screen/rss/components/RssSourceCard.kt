@@ -34,7 +34,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import vn.edu.usth.rssreader.data.model.RssSource
 import vn.edu.usth.rssreader.data.model.RssSourceStatus
-import vn.edu.usth.rssreader.ui.screen.rss.safeFetchErrorMessage
+import vn.edu.usth.rssreader.feature.status.SourceFetchStatusUi
+import vn.edu.usth.rssreader.feature.status.toFetchStatusUi
 import vn.edu.usth.rssreader.ui.components.StatusDot
 import vn.edu.usth.rssreader.ui.components.StatusDotType
 import vn.edu.usth.rssreader.ui.theme.BorderSubtle
@@ -48,7 +49,6 @@ import vn.edu.usth.rssreader.ui.theme.TextPrimary
 import vn.edu.usth.rssreader.ui.theme.TextSecondary
 import vn.edu.usth.rssreader.ui.theme.icon
 import vn.edu.usth.rssreader.ui.theme.scheme
-import vn.edu.usth.rssreader.util.formatRelativeTime
 
 @Composable
 fun RssSourceCard(
@@ -58,6 +58,7 @@ fun RssSourceCard(
     modifier: Modifier = Modifier
 ) {
     val isFetching = source.status == RssSourceStatus.FETCHING
+    val statusUi = source.toFetchStatusUi()
     val categoryColors = source.category.scheme()
 
     Surface(
@@ -121,9 +122,9 @@ fun RssSourceCard(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                SourceStatus(source = source)
+                SourceStatus(source = source, statusUi = statusUi)
                 Spacer(Modifier.width(8.dp))
-                LastFetchedTime(source = source)
+                LastFetchedTime(label = statusUi.lastFetchedLabel)
                 Spacer(Modifier.weight(1f))
                 if (source.status == RssSourceStatus.ERROR) {
                     TextButton(
@@ -197,11 +198,14 @@ private fun CategoryBadge(name: String) {
 }
 
 @Composable
-private fun SourceStatus(source: RssSource) {
+private fun SourceStatus(
+    source: RssSource,
+    statusUi: SourceFetchStatusUi
+) {
     when (source.status) {
         RssSourceStatus.ACTIVE -> {
             StatusPill(
-                label = "Hoạt động",
+                label = statusUi.label,
                 color = StatusSuccess,
                 icon = {
                     StatusDot(
@@ -215,7 +219,7 @@ private fun SourceStatus(source: RssSource) {
 
         RssSourceStatus.FETCHING -> {
             StatusPill(
-                label = "Đang nạp dữ liệu…",
+                label = statusUi.label,
                 color = PrimaryContainer,
                 icon = {
                     CircularProgressIndicator(
@@ -229,7 +233,7 @@ private fun SourceStatus(source: RssSource) {
 
         RssSourceStatus.ERROR -> {
             StatusPill(
-                label = safeFetchErrorMessage(source.lastError),
+                label = statusUi.errorMessage ?: statusUi.label,
                 color = StatusError,
                 icon = {
                     Icon(
@@ -276,7 +280,7 @@ private fun StatusPill(
 }
 
 @Composable
-private fun LastFetchedTime(source: RssSource) {
+private fun LastFetchedTime(label: String) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -288,7 +292,7 @@ private fun LastFetchedTime(source: RssSource) {
             modifier = Modifier.size(14.dp)
         )
         Text(
-            text = source.lastFetchedAt?.let(::formatRelativeTime) ?: "Chưa nạp",
+            text = label,
             color = TextMuted,
             fontSize = 12.sp,
             lineHeight = 16.sp,

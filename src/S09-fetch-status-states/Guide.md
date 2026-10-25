@@ -81,5 +81,14 @@ Automated checks run:
 - `assembleDebug`: passed.
 - `lintDebug`: passed.
 
-Still pending: S01–S08 owners must connect their repositories/ViewModels to the
-shared state components and document those integrations in their PRs.
+Wired into screens:
+
+- S06 `RssScreen` uses `LoadingState`, `EmptyState` and `ErrorState`; the
+  restore-default action and its warning moved into `ErrorState` options.
+- `RssSourceCard` renders status, last-fetch time and safe errors through
+  `toFetchStatusUi`, so copy lives in one place.
+- S01 `HomeScreen` uses `LoadingState` and `ErrorState` with a retry action.
+
+Still pending: S01 empty-filter and no-source copy, S03/S05 inline states, and
+S06 needing a dedicated status view. Owners connect them and document the
+integration in their PRs.
