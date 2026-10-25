@@ -102,12 +102,11 @@ Show `name`, retain the numeric `id` and submit that value as `categoryId`; do n
 
 ## Implementation files
 
-- `app/src/main/java/vn/edu/usth/rssreader/feature/s07_add_source/AddRssSourceSheet.kt`
-- `app/src/main/java/vn/edu/usth/rssreader/feature/s07_add_source/AddRssSourceViewModel.kt`
-- `app/src/main/java/vn/edu/usth/rssreader/feature/s07_add_source/AddRssSourceUiState.kt`
-- `app/src/main/java/vn/edu/usth/rssreader/data/parser/RssFeedValidator.kt`
+- `app/src/main/java/vn/edu/usth/rssreader/ui/screen/rss/components/AddRssSourceSheet.kt`
+- `app/src/main/java/vn/edu/usth/rssreader/ui/screen/rss/RssSourcesUiState.kt`
+- `app/src/main/java/vn/edu/usth/rssreader/ui/screen/rss/RssSourcesViewModel.kt`
 - `app/src/main/java/vn/edu/usth/rssreader/data/repository/RssSourceRepository.kt`
-- `app/src/main/java/vn/edu/usth/rssreader/core/model/RssModels.kt`
-- `app/src/main/java/vn/edu/usth/rssreader/core/designsystem/EditorialPulseTheme.kt`
-- `app/src/test/java/vn/edu/usth/rssreader/data/RssFeedValidatorTest.kt`
-- `app/src/test/java/vn/edu/usth/rssreader/feature/s07_add_source/AddRssSourceViewModelTest.kt`
+- `app/src/main/java/vn/edu/usth/rssreader/data/repository/RssFeedInspector.kt`
+- `app/src/main/java/vn/edu/usth/rssreader/data/model/RssSource.kt`
+- `app/src/test/java/vn/edu/usth/rssreader/data/repository/RssFeedInspectorTest.kt`
+- `app/src/test/java/vn/edu/usth/rssreader/ui/screen/rss/SuggestCategoryForFeedTest.kt`
