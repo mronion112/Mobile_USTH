@@ -47,11 +47,13 @@ class FetchStatusPresentationTest {
 
     @Test
     fun `technical error details are replaced with safe copy`() {
-        val message = safeErrorSummary(
-            "java.net.SocketException at feed.Parser.parse(Feed.kt:42) https://secret.test",
-        )
+        val ui = source(
+            status = RssSourceStatus.ERROR,
+            lastError = "java.net.SocketException at feed.Parser.parse(Feed.kt:42) https://secret.test",
+        ).toFetchStatusUi(now = now)
 
-        assertEquals("Chưa thể cập nhật nguồn tin. Vui lòng thử lại.", message)
+        assertEquals("Chưa thể cập nhật nguồn tin. Vui lòng thử lại.", ui.errorMessage)
+        assertTrue(ui.canRetry)
     }
 
     @Test
