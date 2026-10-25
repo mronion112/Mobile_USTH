@@ -118,7 +118,7 @@ class RssSourcesViewModel(application: Application) : AndroidViewModel(applicati
                         if (activeForm == null || activeForm.rssUrl.trim() != url) {
                             current
                         } else {
-                            val suggestedCategory = suggestedCategory(
+                            val suggestedCategory = suggestCategoryForFeed(
                                 url = url,
                                 title = result.detectedTitle,
                                 categories = activeForm.categories
@@ -272,15 +272,6 @@ class RssSourcesViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
-    private fun suggestedCategory(
-        url: String,
-        title: String?,
-        categories: List<vn.edu.usth.rssreader.data.model.Category>
-    ) = categories.firstOrNull { category ->
-        url.contains(category.id, ignoreCase = true) ||
-            title?.contains(category.name, ignoreCase = true) == true
-    }
-
     private fun String.isHttpUrl(): Boolean =
         startsWith("https://", ignoreCase = true) || startsWith("http://", ignoreCase = true)
 
@@ -299,4 +290,14 @@ class RssSourcesViewModel(application: Application) : AndroidViewModel(applicati
         )
         val DEFAULT_CATEGORY = FakeCategories.Current
     }
+}
+
+/** Pure category suggestion shared by the add-source form and its tests. */
+internal fun suggestCategoryForFeed(
+    url: String,
+    title: String?,
+    categories: List<vn.edu.usth.rssreader.data.model.Category>
+) = categories.firstOrNull { category ->
+    url.contains(category.id, ignoreCase = true) ||
+        title?.contains(category.name, ignoreCase = true) == true
 }

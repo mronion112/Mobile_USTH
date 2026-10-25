@@ -96,6 +96,17 @@ Show `name`, retain the numeric `id` and submit that value as `categoryId`; do n
 
 ## Done when
 
-- [ ] Valid preview preselects suggested category but user may change it.
-- [ ] Invalid/loading/save failure states prevent double submission.
-- [ ] Successful save refreshes S06 list.
+- [x] Valid preview preselects suggested category but user may change it.
+- [x] Invalid/loading/save failure states prevent double submission.
+- [x] Successful save refreshes S06 list.
+
+## Implementation files
+
+- `app/src/main/java/vn/edu/usth/rssreader/ui/screen/rss/components/AddRssSourceSheet.kt`
+- `app/src/main/java/vn/edu/usth/rssreader/ui/screen/rss/RssSourcesUiState.kt`
+- `app/src/main/java/vn/edu/usth/rssreader/ui/screen/rss/RssSourcesViewModel.kt`
+- `app/src/main/java/vn/edu/usth/rssreader/data/repository/RssSourceRepository.kt`
+- `app/src/main/java/vn/edu/usth/rssreader/data/repository/RssFeedInspector.kt`
+- `app/src/main/java/vn/edu/usth/rssreader/data/model/RssSource.kt`
+- `app/src/test/java/vn/edu/usth/rssreader/data/repository/RssFeedInspectorTest.kt`
+- `app/src/test/java/vn/edu/usth/rssreader/ui/screen/rss/SuggestCategoryForFeedTest.kt`
