@@ -85,8 +85,14 @@ fun AppNavHost(
             modifier = Modifier.padding(if (isArticleDetail) PaddingValues() else innerPadding),
             enterTransition = { tabEnter() },
             exitTransition = { tabExit() },
-            popEnterTransition = { tabEnter() },
-            popExitTransition = { tabExit() }
+            // Pops only happen when leaving a detail route, so the returning
+            // screen always comes from the left.
+            popEnterTransition = {
+                slideInHorizontally(tween(TAB_ANIM_MS)) { -it } + fadeIn(tween(TAB_ANIM_MS))
+            },
+            popExitTransition = {
+                slideOutHorizontally(tween(TAB_ANIM_MS)) { it } + fadeOut(tween(TAB_ANIM_MS))
+            }
         ) {
             composable(Destination.HOME.route) {
                 HomeScreen(
