@@ -15,7 +15,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.RssFeed
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,11 +35,11 @@ import vn.edu.usth.rssreader.ui.screen.home.components.FeaturedSection
 import vn.edu.usth.rssreader.ui.screen.home.components.GreetingRow
 import vn.edu.usth.rssreader.ui.screen.home.components.HomeSearchBar
 import vn.edu.usth.rssreader.ui.screen.home.components.LatestSection
+import vn.edu.usth.rssreader.ui.components.ErrorState
+import vn.edu.usth.rssreader.ui.components.LoadingState
 import vn.edu.usth.rssreader.ui.screen.home.components.RssStatusBar
 import vn.edu.usth.rssreader.ui.theme.Primary
-import vn.edu.usth.rssreader.ui.theme.StatusError
 import vn.edu.usth.rssreader.ui.theme.SurfaceCanvas
-import vn.edu.usth.rssreader.ui.theme.TextMuted
 import vn.edu.usth.rssreader.ui.theme.TextPrimary
 import vn.edu.usth.rssreader.ui.theme.TextSecondary
 
@@ -108,7 +107,10 @@ fun HomeScreen(
 
             uiState.refreshError != null &&
                     uiState.featuredArticle == null &&
-                    uiState.latestArticles.isEmpty() -> ErrorState(uiState.refreshError!!)
+                    uiState.latestArticles.isEmpty() -> ErrorState(
+                        message = uiState.refreshError!!,
+                        onRetry = viewModel::onRefreshClick
+                    )
 
             uiState.featuredArticle == null && uiState.latestArticles.isEmpty() -> EmptyFilterState()
 
@@ -161,32 +163,6 @@ fun HomeScreen(
 // ─── State composables ─────────────────────────────────────
 
 @Composable
-private fun LoadingState() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 48.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            CircularProgressIndicator(
-                color = Primary,
-                strokeWidth = 3.dp,
-                modifier = Modifier.size(32.dp)
-            )
-            Text(
-                text = "Đang tải tin tức…",
-                color = TextSecondary,
-                fontSize = 13.sp
-            )
-        }
-    }
-}
-
-@Composable
 private fun NoSourceState() {
     Column(
         modifier = Modifier
@@ -213,39 +189,6 @@ private fun NoSourceState() {
             color = TextSecondary,
             fontSize = 13.sp,
             lineHeight = 19.sp,
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
-@Composable
-private fun ErrorState(message: String) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 32.dp, vertical = 40.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        Text(
-            text = "Không tải được tin tức",
-            color = StatusError,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center
-        )
-        Text(
-            text = message,
-            color = TextSecondary,
-            fontSize = 13.sp,
-            lineHeight = 19.sp,
-            textAlign = TextAlign.Center
-        )
-        Text(
-            text = "Kéo xuống hoặc bấm nút \"Làm mới\" trong tab Nguồn RSS để thử lại.",
-            color = TextMuted,
-            fontSize = 12.sp,
-            lineHeight = 17.sp,
             textAlign = TextAlign.Center
         )
     }

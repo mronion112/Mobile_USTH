@@ -61,4 +61,34 @@ Refreshing source `id=3` produces the same stored object shape. The only fields 
 ## Done when
 
 - [ ] All S01–S08 owners link their state behavior in PR description.
-- [ ] Error copy does not expose stack trace, URLs with credentials, or raw XML.
+- [x] Error copy does not expose stack trace, URLs with credentials, or raw XML.
+
+## Implementation status
+
+- Shared `ScreenState` contract plus reusable `LoadingState`, `EmptyState` and
+  `ErrorState` composables.
+- Reusable `SourceFetchStatusCard` for `ACTIVE`, `FETCHING` and `ERROR`;
+  `DISABLED` is intentionally hidden. Fetching has no retry action, preventing
+  duplicate refresh requests.
+- `RssSource` presentation mapping for relative fetch time, safe Vietnamese
+  errors and retry visibility; error text reuses `safeFetchErrorMessage`.
+- Android Studio previews cover loading, empty, error and all visible source
+  statuses at 390dp width.
+
+Automated checks run:
+
+- `testDebugUnitTest`: status mapping, relative time and disabled visibility.
+- `assembleDebug`: passed.
+- `lintDebug`: passed.
+
+Wired into screens:
+
+- S06 `RssScreen` uses `LoadingState`, `EmptyState` and `ErrorState`; the
+  restore-default action and its warning moved into `ErrorState` options.
+- `RssSourceCard` renders status, last-fetch time and safe errors through
+  `toFetchStatusUi`, so copy lives in one place.
+- S01 `HomeScreen` uses `LoadingState` and `ErrorState` with a retry action.
+
+Still pending: S01 empty-filter and no-source copy, S03/S05 inline states, and
+S06 needing a dedicated status view. Owners connect them and document the
+integration in their PRs.
