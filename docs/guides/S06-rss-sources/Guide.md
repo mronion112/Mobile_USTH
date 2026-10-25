@@ -1,7 +1,7 @@
 # S06 — RSS Sources
 
 **Owner:** Nguyễn Hoàng Anh  
-**Visual reference:** [RSS Sources.png](../../../RSS%20Sources.png)
+**Visual reference:** [RSS Sources.png](../../mockups/RSS%20Sources.png)
 
 ## Scope
 

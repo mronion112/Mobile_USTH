@@ -5,10 +5,10 @@
 ```text
 .
 ├── app/             # Kotlin Android module: Compose UI, data layer, tests
-├── docs/            # Workflow, guides S01–S09, thứ tự triển khai, test strategy
-│   └── guides/      # Guide.md cho từng screen và shared UI
-├── DESIGN2.md       # Design system nguồn: Editorial Pulse
-└── *.png            # Wireframe/màn demo do nhóm cung cấp
+├── docs/            # Workflow, guides, thứ tự triển khai, test strategy
+│   ├── guides/      # Guide.md cho từng screen và shared UI
+│   └── mockups/     # Wireframe/mockup trước khi code, không phải ảnh sản phẩm
+└── DESIGN2.md       # Design system nguồn: Editorial Pulse
 ```
 
 ## Nguồn thiết kế và dữ liệu

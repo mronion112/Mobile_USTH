@@ -1,7 +1,7 @@
 # S03 — Search & Filter
 
 **Owner:** Nguyễn Thị Mai Linh  
-**Visual reference:** [Search & Filter.png](../../../Search%20%26%20Filter.png)
+**Visual reference:** [Search & Filter.png](../../mockups/Search%20%26%20Filter.png)
 
 ## Scope
 
