@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import vn.edu.usth.rssreader.data.model.RssSource
 import vn.edu.usth.rssreader.data.model.RssSourceStatus
+import vn.edu.usth.rssreader.ui.screen.rss.safeFetchErrorMessage
 import vn.edu.usth.rssreader.ui.components.StatusDot
 import vn.edu.usth.rssreader.ui.components.StatusDotType
 import vn.edu.usth.rssreader.ui.theme.BorderSubtle
@@ -228,7 +229,7 @@ private fun SourceStatus(source: RssSource) {
 
         RssSourceStatus.ERROR -> {
             StatusPill(
-                label = source.lastError ?: "Lỗi kết nối",
+                label = safeFetchErrorMessage(source.lastError),
                 color = StatusError,
                 icon = {
                     Icon(
