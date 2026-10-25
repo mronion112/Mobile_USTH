@@ -4,6 +4,7 @@ import java.time.Instant
 
 data class Article(
     val id: String,
+    val sourceId: Long = -1L,
     val title: String,
     val description: String? = null,
     val link: String = "",
@@ -14,5 +15,6 @@ data class Article(
     val publishedAt: Instant,
     val viewCount: Int? = null,
     val isRssVerified: Boolean = false,
-    val readingTimeMinutes: Int? = null
+    val readingTimeMinutes: Int? = null,
+    val savedAt: Instant? = null
 )

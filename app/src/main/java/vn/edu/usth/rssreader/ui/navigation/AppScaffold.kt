@@ -12,16 +12,15 @@ fun AppScaffold(
     currentDestination: Destination?,
     onNavigate: (Destination) -> Unit,
     modifier: Modifier = Modifier,
-    showBottomBar: Boolean = true,
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
         modifier = modifier,
         containerColor = SurfaceCanvas,
         bottomBar = {
-            if (showBottomBar && currentDestination != null) {
+            currentDestination?.let { destination ->
                 AppBottomNav(
-                    currentDestination = currentDestination,
+                    currentDestination = destination,
                     onNavigate = onNavigate
                 )
             }

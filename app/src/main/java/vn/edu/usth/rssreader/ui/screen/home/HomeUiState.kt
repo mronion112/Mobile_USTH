@@ -5,9 +5,7 @@ import vn.edu.usth.rssreader.data.model.Category
 import vn.edu.usth.rssreader.data.model.Reader
 
 data class HomeUiState(
-    val isLoading: Boolean = false,
 
-    // Greeting block
     val greeting: String = "",
     val reader: Reader? = null,
     val isSyncing: Boolean = false,
@@ -16,12 +14,17 @@ data class HomeUiState(
     // Category strip
     val categories: List<Category> = emptyList(),
     val selectedCategoryId: String? = null,
+    val syncedFeedCount: Int = 0,
 
     // Content
     val featuredArticle: Article? = null,
     val latestArticles: List<Article> = emptyList(),
 
-    // Latest section state
+    // Refresh / saved
     val isRefreshing: Boolean = false,
-    val savedArticleIds: Set<String> = emptySet()
+    val savedArticleIds: Set<String> = emptySet(),
+
+    val isInitialLoading: Boolean = true,
+    val hasAnySource: Boolean = false,
+    val refreshError: String? = null
 )

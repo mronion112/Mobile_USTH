@@ -50,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import vn.edu.usth.rssreader.RssReaderApplication
 import vn.edu.usth.rssreader.data.model.Article
 import vn.edu.usth.rssreader.ui.components.article.CategoryBadge
 import vn.edu.usth.rssreader.ui.screen.detail.components.ArticleContentRenderer
@@ -72,14 +73,15 @@ private val SkyBlue = Color(0xFF0284C7)
 fun ArticleDetailScreen(
     articleId: String,
     onBackClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: ArticleDetailViewModel = viewModel(
-        key = articleId,
-        factory = ArticleDetailViewModel.provideFactory(articleId)
-    )
+    modifier: Modifier = Modifier
 ) {
-    val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
+    val application = context.applicationContext as RssReaderApplication
+    val viewModel: ArticleDetailViewModel = viewModel(
+        key = articleId,
+        factory = ArticleDetailViewModel.provideFactory(application, articleId)
+    )
+    val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
         modifier = modifier.fillMaxSize(),

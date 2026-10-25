@@ -12,6 +12,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -29,6 +32,7 @@ import vn.edu.usth.rssreader.ui.screen.rss.RssScreen
 import vn.edu.usth.rssreader.ui.screen.saved.SavedScreen
 
 private const val TAB_ANIM_MS = 300
+private const val ARTICLE_ROUTE = "article/{articleId}"
 
 private fun tabIndex(route: String?): Int =
     Destination.entries.indexOfFirst { it.route == route }.takeIf { it >= 0 } ?: 0
@@ -55,18 +59,24 @@ fun AppNavHost(
     val isArticleDetail = currentRoute?.startsWith("article/") == true
     val currentDestination = if (isArticleDetail) null else Destination.fromRoute(currentRoute)
 
+    var focusExploreSearch by remember { mutableStateOf(false) }
+
+    val navigateToTab: (Destination) -> Unit = { destination ->
+        navController.navigate(destination.route) {
+            popUpTo(navController.graph.findStartDestination().id) {
+                saveState = true
+            }
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+    val navigateToArticle: (String) -> Unit = { articleId ->
+        navController.navigate("article/$articleId")
+    }
+
     AppScaffold(
         currentDestination = currentDestination,
-        showBottomBar = !isArticleDetail,
-        onNavigate = { destination ->
-            navController.navigate(destination.route) {
-                popUpTo(navController.graph.findStartDestination().id) {
-                    saveState = true
-                }
-                launchSingleTop = true
-                restoreState = true
-            }
-        },
+        onNavigate = navigateToTab,
         modifier = modifier
     ) { innerPadding ->
         NavHost(
@@ -80,45 +90,38 @@ fun AppNavHost(
         ) {
             composable(Destination.HOME.route) {
                 HomeScreen(
-                    onArticleClick = { articleId ->
-                        navController.navigate("article/$articleId")
-                    }
+                    onSearchClick = {
+                        focusExploreSearch = true
+                        navigateToTab(Destination.EXPLORE)
+                    },
+                    onArticleClick = navigateToArticle
                 )
             }
             composable(Destination.EXPLORE.route) {
-                ExploreScreen()
+                ExploreScreen(
+                    focusSearchOnEnter = focusExploreSearch,
+                    onSearchFocused = { focusExploreSearch = false },
+                    onArticleClick = navigateToArticle
+                )
             }
             composable(Destination.SAVED.route) {
-                SavedScreen(
-                    onArticleClick = { articleId ->
-                        navController.navigate("article/$articleId")
-                    }
-                )
+                SavedScreen(onArticleClick = navigateToArticle)
             }
             composable(Destination.RSS.route) {
                 RssScreen()
             }
             composable(
-                route = "article/{articleId}",
-                arguments = listOf(
-                    navArgument("articleId") { type = NavType.StringType }
-                ),
+                route = ARTICLE_ROUTE,
+                arguments = listOf(navArgument("articleId") { type = NavType.StringType }),
                 enterTransition = {
-                    slideInHorizontally(tween(300)) { it } + fadeIn(tween(300))
+                    slideInHorizontally(tween(TAB_ANIM_MS)) { it } + fadeIn(tween(TAB_ANIM_MS))
                 },
                 exitTransition = {
-                    slideOutHorizontally(tween(300)) { -it } + fadeOut(tween(300))
-                },
-                popEnterTransition = {
-                    slideInHorizontally(tween(300)) { -it } + fadeIn(tween(300))
-                },
-                popExitTransition = {
-                    slideOutHorizontally(tween(300)) { it } + fadeOut(tween(300))
+                    slideOutHorizontally(tween(TAB_ANIM_MS)) { -it } + fadeOut(tween(TAB_ANIM_MS))
                 }
-            ) { navBackStack ->
-                val articleId = navBackStack.arguments?.getString("articleId") ?: ""
+            ) { entry ->
                 ArticleDetailScreen(
-                    articleId = articleId,
+                    articleId = entry.arguments?.getString("articleId").orEmpty(),
                     onBackClick = { navController.popBackStack() }
                 )
             }
