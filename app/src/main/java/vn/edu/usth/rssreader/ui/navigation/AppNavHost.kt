@@ -31,7 +31,7 @@ import vn.edu.usth.rssreader.ui.screen.home.HomeScreen
 import vn.edu.usth.rssreader.ui.screen.rss.RssScreen
 import vn.edu.usth.rssreader.ui.screen.saved.SavedScreen
 
-private const val TAB_ANIM_MS = 300
+internal const val TAB_ANIM_MS = 300
 private const val ARTICLE_ROUTE = "article/{articleId}"
 
 private fun tabIndex(route: String?): Int =

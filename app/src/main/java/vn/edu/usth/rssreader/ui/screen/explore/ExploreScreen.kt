@@ -42,6 +42,7 @@ import vn.edu.usth.rssreader.data.fake.FakeArticles
 import vn.edu.usth.rssreader.data.fake.FakeCategories
 import vn.edu.usth.rssreader.data.model.Article
 import vn.edu.usth.rssreader.ui.components.article.CategoryPill
+import vn.edu.usth.rssreader.ui.navigation.TAB_ANIM_MS
 import vn.edu.usth.rssreader.ui.screen.explore.components.ExploreSearchBar
 import vn.edu.usth.rssreader.ui.screen.explore.components.FilterBadgesRow
 import vn.edu.usth.rssreader.ui.screen.explore.components.LoadMoreButton
@@ -92,7 +93,9 @@ private fun ExploreContent(
 
     LaunchedEffect(focusSearchOnEnter) {
         if (focusSearchOnEnter) {
-            delay(150)
+            // Wait for the tab slide (TAB_ANIM_MS) to finish: opening the
+            // keyboard mid-transition resizes the window and drops frames.
+            delay(TAB_ANIM_MS + 50L)
             runCatching { searchFocusRequester.requestFocus() }
             onSearchFocused()
         }
