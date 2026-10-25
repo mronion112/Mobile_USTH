@@ -16,9 +16,24 @@ android {
         versionName = "1.0"
     }
 
+    signingConfigs {
+        // Optional release signing: builds stay unsigned unless the cd
+        // workflow writes the keystore and injects these variables.
+        val storePath = System.getenv("RELEASE_KEYSTORE_FILE")
+        if (storePath != null && file(storePath).exists()) {
+            create("release") {
+                storeFile = file(storePath)
+                storePassword = System.getenv("RELEASE_KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("RELEASE_KEY_ALIAS")
+                keyPassword = System.getenv("RELEASE_KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.findByName("release")
         }
     }
 

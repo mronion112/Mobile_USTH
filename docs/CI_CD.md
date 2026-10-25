@@ -70,10 +70,20 @@ declare `using: node24`.
 
 Store signing keys and store passwords in GitHub Actions secrets.
 Never commit `local.properties`, keystores, `.env`, or tokens.
-`cd.yml` reads secrets only from `${{ secrets.* }}`. Release builds are
-currently unsigned because `app/build.gradle.kts` defines no signing
-config; add it with secret-backed `storeFile`, `storePassword`,
-`keyAlias`, and `keyPassword` before publishing.
+
+Release signing is optional and driven by four secrets:
+
+| Secret | Purpose |
+| --- | --- |
+| `RELEASE_KEYSTORE_BASE64` | Keystore file, base64 encoded |
+| `RELEASE_KEYSTORE_PASSWORD` | Keystore password |
+| `RELEASE_KEY_ALIAS` | Key alias inside the keystore |
+| `RELEASE_KEY_PASSWORD` | Key password |
+
+`cd.yml` decodes the keystore to `$RUNNER_TEMP` and exports
+`RELEASE_KEYSTORE_FILE` before assembling. When `RELEASE_KEYSTORE_BASE64`
+is absent the release build still runs and produces an unsigned artifact,
+so forks and tags keep working without secrets.
 
 ## Branch protection
 
