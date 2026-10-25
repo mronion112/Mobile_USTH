@@ -65,22 +65,19 @@ Refreshing source `id=3` produces the same stored object shape. The only fields 
 
 ## Implementation status
 
-Implemented locally with Jetpack Compose:
-
 - Shared `ScreenState` contract plus reusable `LoadingState`, `EmptyState` and
   `ErrorState` composables.
 - Reusable `SourceFetchStatusCard` for `ACTIVE`, `FETCHING` and `ERROR`;
   `DISABLED` is intentionally hidden. Fetching has no retry action, preventing
   duplicate refresh requests.
-- `RssSource`/`FetchError` shared models and presentation mapping for relative
-  fetch time, safe Vietnamese errors and retry visibility.
+- `RssSource` presentation mapping for relative fetch time, safe Vietnamese
+  errors and retry visibility; error text reuses `safeFetchErrorMessage`.
 - Android Studio previews cover loading, empty, error and all visible source
   statuses at 390dp width.
 
 Automated checks run:
 
-- `testDebugUnitTest`: status mapping, relative time, disabled visibility,
-  known error-code copy and technical-detail redaction.
+- `testDebugUnitTest`: status mapping, relative time and disabled visibility.
 - `assembleDebug`: passed.
 - `lintDebug`: passed.
 

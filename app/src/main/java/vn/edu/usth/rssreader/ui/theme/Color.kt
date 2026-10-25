@@ -46,7 +46,6 @@ val BorderSubtle        = Color(0xFFE2E8F0)
 val Canvas = SurfaceCanvas
 val White = SurfaceCard
 val CardSubtle = SurfaceCardSubtle
-val PrimaryTeal = Primary
 val ActionTeal = PrimaryContainer
 val MutedSlate = TextMuted
 val StatusActive = StatusSuccess
