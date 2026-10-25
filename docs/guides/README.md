@@ -18,6 +18,6 @@ S09-fetch-status-states/  Nguyễn Hoàng Minh
 
 Mỗi `Guide.md` định nghĩa UI, data dependency, event và definition of done. Các folder S01–S09 không được tạo model riêng; dùng model local chung do `00-app-shell` công bố.
 
-Thiết kế bắt buộc: [DESIGN2_IMPLEMENTATION.md](DESIGN2_IMPLEMENTATION.md), chuyển đổi trực tiếp từ [DESIGN2.md](../DESIGN2.md).
+Thiết kế bắt buộc: [DESIGN2_IMPLEMENTATION.md](DESIGN2_IMPLEMENTATION.md), chuyển đổi trực tiếp từ [DESIGN2.md](../../DESIGN2.md).
 
 Demo visual/reference: [Vietnam News](https://stitch.withgoogle.com/preview/5420956129683526122?node-id=5e5e9a12953f49129d1ef8c1987b4ed8). Nguyễn Quang Vũ Hoàng phụ trách CI/CD GitHub cố định, không nhận screen.

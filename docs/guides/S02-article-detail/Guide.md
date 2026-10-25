@@ -1,7 +1,7 @@
 # S02 — Article Detail
 
 **Owner:** Nguyễn Văn Đức  
-**Visual reference:** [Article Detail.png](../../Article%20Detail.png)
+**Visual reference:** [Article Detail.png](../../../Article%20Detail.png)
 
 ## Scope
 

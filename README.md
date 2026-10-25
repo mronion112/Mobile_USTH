@@ -4,8 +4,9 @@
 
 ```text
 .
-├── src/             # Kotlin Android: App shell, shared UI và S01–S09
-├── docs/            # Workflow, thứ tự triển khai và test strategy cho FE
+├── app/             # Kotlin Android module: Compose UI, data layer, tests
+├── docs/            # Workflow, guides S01–S09, thứ tự triển khai, test strategy
+│   └── guides/      # Guide.md cho từng screen và shared UI
 ├── DESIGN2.md       # Design system nguồn: Editorial Pulse
 └── *.png            # Wireframe/màn demo do nhóm cung cấp
 ```
@@ -18,8 +19,8 @@
 
 ## Bắt đầu triển khai
 
-1. Đọc [src README](src/README.md), [design implementation](src/DESIGN2_IMPLEMENTATION.md) và [implementation order](docs/IMPLEMENTATION_ORDER.md).
-2. Chọn Jetpack Compose hoặc XML Views một lần trong `src/00-app-shell`; ưu tiên Compose cho design system này.
+1. Đọc [guides README](docs/guides/README.md), [design implementation](docs/guides/DESIGN2_IMPLEMENTATION.md) và [implementation order](docs/IMPLEMENTATION_ORDER.md).
+2. Chọn Jetpack Compose hoặc XML Views một lần trong `docs/guides/00-app-shell`; ưu tiên Compose cho design system này.
 3. Mỗi người code một S-folder/PR, dùng component và model chung, không copy UI hay model.
 4. Đối chiếu state loading, empty, error, null image/link với `Guide.md` của screen trước khi handover.
 
@@ -27,16 +28,16 @@
 
 | ID | Screen | Owner | Folder |
 | --- | --- | --- | --- |
-| S01 | Home News Feed | Nguyễn Tiến Đạt | `src/S01-home-news-feed` |
-| S02 | Article Detail | Nguyễn Văn Đức | `src/S02-article-detail` |
-| S03 | Search & Filter | Nguyễn Thị Mai Linh | `src/S03-search-filter` |
-| S04 | Category Feed | Nguyễn Tiến Đạt | `src/S04-category-feed` |
-| S05 | Bookmarks | Nguyễn Thị Mai Linh | `src/S05-bookmarks` |
-| S06 | RSS Sources | Nguyễn Hoàng Anh | `src/S06-rss-sources` |
-| S07 | Add RSS Source | Vũ Minh Hoàng | `src/S07-add-rss-source` |
-| S08 | Remove Confirmation | Nguyễn Hoàng Anh | `src/S08-remove-source-confirmation` |
-| S09 | Fetch / Empty / Error State | Nguyễn Hoàng Minh | `src/S09-fetch-status-states` |
+| S01 | Home News Feed | Nguyễn Tiến Đạt | `docs/guides/S01-home-news-feed` |
+| S02 | Article Detail | Nguyễn Văn Đức | `docs/guides/S02-article-detail` |
+| S03 | Search & Filter | Nguyễn Thị Mai Linh | `docs/guides/S03-search-filter` |
+| S04 | Category Feed | Nguyễn Tiến Đạt | `docs/guides/S04-category-feed` |
+| S05 | Bookmarks | Nguyễn Thị Mai Linh | `docs/guides/S05-bookmarks` |
+| S06 | RSS Sources | Nguyễn Hoàng Anh | `docs/guides/S06-rss-sources` |
+| S07 | Add RSS Source | Vũ Minh Hoàng | `docs/guides/S07-add-rss-source` |
+| S08 | Remove Confirmation | Nguyễn Hoàng Anh | `docs/guides/S08-remove-source-confirmation` |
+| S09 | Fetch / Empty / Error State | Nguyễn Hoàng Minh | `docs/guides/S09-fetch-status-states` |
 
 **Nguyễn Quang Vũ Hoàng** phụ trách cố định CI/CD GitHub, không nhận task screen.
 
-Model local dùng chung và data flow: [app-shell Guide](src/00-app-shell/Guide.md).
+Model local dùng chung và data flow: [app-shell Guide](docs/guides/00-app-shell/Guide.md).

@@ -1,7 +1,7 @@
 # S04 — Category Feed
 
 **Owner:** Nguyễn Tiến Đạt  
-**Visual reference:** [Category Feed.png](../../Category%20Feed.png)
+**Visual reference:** [Category Feed.png](../../../Category%20Feed.png)
 
 ## Scope
 

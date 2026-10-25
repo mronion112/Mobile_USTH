@@ -1,7 +1,7 @@
 # S01 — Home News Feed
 
 **Owner:** Nguyễn Tiến Đạt  
-**Visual reference:** [Home News Feed.png](../../Home%20News%20Feed.png)
+**Visual reference:** [Home News Feed.png](../../../Home%20News%20Feed.png)
 
 ## Scope
 

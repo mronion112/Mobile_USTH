@@ -8,7 +8,7 @@ FE Lead chốt Jetpack Compose hoặc XML Views (khuyến nghị Compose), tạo
 
 ## G1 — Shared editorial UI
 
-Hoàn thành `src/00-shared-components`: featured/compact article card, chips, search input, source status card, button, loading/empty/error states.
+Hoàn thành `docs/guides/00-shared-components`: featured/compact article card, chips, search input, source status card, button, loading/empty/error states.
 
 **Bàn giao:** S01–S05 dùng một ArticleCard; S06–S09 dùng một SourceCard/status style. Không copy component sang feature khác.
 

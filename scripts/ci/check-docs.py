@@ -56,7 +56,7 @@ def main() -> int:
     errors = 0
 
     for dirname in GUIDE_DIRS:
-        guide = ROOT / "src" / dirname / "Guide.md"
+        guide = ROOT / "docs" / "guides" / dirname / "Guide.md"
         if not guide.is_file():
             errors += fail(f"missing {guide.relative_to(ROOT)}")
             continue

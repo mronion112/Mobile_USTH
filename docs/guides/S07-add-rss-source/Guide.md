@@ -1,7 +1,7 @@
 # S07 — Add RSS Source
 
 **Owner:** Vũ Minh Hoàng  
-**Visual reference:** [Add RSS Source.png](../../Add%20RSS%20Source.png)
+**Visual reference:** [Add RSS Source.png](../../../Add%20RSS%20Source.png)
 
 ## Scope
 
