@@ -1,6 +1,8 @@
 package vn.edu.usth.rssreader.ui.theme
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Label
+import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -30,7 +32,7 @@ fun Category.scheme(): CategoryColorScheme =
 private val CategoryIconMap: Map<String, ImageVector> = mapOf(
     "all"           to Icons.Filled.Newspaper,
     "the-gioi"      to Icons.Filled.Public,
-    "kinh-doanh"    to Icons.Filled.TrendingUp,
+    "kinh-doanh"    to Icons.AutoMirrored.Filled.TrendingUp,
     "cong-nghe"     to Icons.Filled.Memory,
     "the-thao"      to Icons.Filled.SportsSoccer,
     "giai-tri"      to Icons.Filled.TheaterComedy,
@@ -41,6 +43,6 @@ private val CategoryIconMap: Map<String, ImageVector> = mapOf(
     "bat-dong-san"  to Icons.Filled.HomeWork
 )
 
-val DefaultCategoryIcon: ImageVector = Icons.Filled.Label
+val DefaultCategoryIcon: ImageVector = Icons.AutoMirrored.Filled.Label
 
 fun Category.icon(): ImageVector = CategoryIconMap[id] ?: DefaultCategoryIcon
