@@ -11,11 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.RssFeed
 import androidx.compose.material3.Button
@@ -101,104 +100,111 @@ private fun ExploreContent(
         }
     }
 
-    Column(
+    LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .background(SurfaceCanvas)
-            .verticalScroll(rememberScrollState())
     ) {
-        Spacer(Modifier.height(8.dp))
+        item(key = "top-spacer") { Spacer(Modifier.height(8.dp)) }
 
-        ExploreSearchBar(
-            value = uiState.searchQuery,
-            onValueChange = onQueryChange,
-            onFilterClick = { },
-            focusRequester = searchFocusRequester,
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
+        item(key = "search") {
+            ExploreSearchBar(
+                value = uiState.searchQuery,
+                onValueChange = onQueryChange,
+                onFilterClick = { },
+                focusRequester = searchFocusRequester,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+        }
 
-        Spacer(Modifier.height(12.dp))
+        item(key = "category-spacer") { Spacer(Modifier.height(12.dp)) }
 
         // Category pills — giống Home
         if (uiState.displayCategories.size > 1) {
-            LazyRow(
-                modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(items = uiState.displayCategories, key = { it.id }) { category ->
-                    CategoryPill(
-                        category = category,
-                        selected = category.id == uiState.selectedCategoryId,
-                        onClick = { onCategorySelected(category.id) }
-                    )
-                }
-            }
-            Spacer(Modifier.height(16.dp))
-        }
-
-        when {
-            uiState.isLoading -> ExploreLoading()
-
-            !uiState.hasAnySource -> ExploreNoSource()
-
-            else -> {
-                // Trending — chỉ khi không search
-                if (uiState.searchQuery.isBlank() && uiState.trendingArticles.isNotEmpty()) {
-                    TrendingTopicsSection(
-                        articles = uiState.trendingArticles,
-                        onSeeAllClick = {
-                            // TODO(all-articles-screen)
-                        },
-                        onArticleClick = onArticleClick
-                    )
-                    Spacer(Modifier.height(16.dp))
-                }
-
-                FilterBadgesRow(resultCount = uiState.filteredArticles.size)
-
-                Spacer(Modifier.height(12.dp))
-
-                if (uiState.visibleArticles.isEmpty()) {
-                    ExploreEmpty(
-                        query = uiState.searchQuery,
-                        onClearSearch = { onQueryChange("") }
-                    )
-                } else {
-                    Column(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        uiState.visibleArticles.forEach { article ->
-                            SearchResultItem(
-                                article = article,
-                                keyword = uiState.searchQuery,
-                                bookmarked = uiState.bookmarkedIds.contains(article.id),
-                                onBookmarkToggle = { bookmarked ->
-                                    onBookmarkToggle(article, bookmarked)
-                                },
-                                onShareClick = {
-                                    // TODO(share)
-                                },
-                                onClick = { onArticleClick(article.id) }
-                            )
-                        }
-                    }
-
-                    Spacer(Modifier.height(16.dp))
-
-                    if (uiState.hasMore) {
-                        LoadMoreButton(
-                            remainingCount = uiState.remainingCount,
-                            modifier = Modifier.padding(horizontal = 16.dp),
-                            onClick = onLoadMore
+            item(key = "categories") {
+                LazyRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(items = uiState.displayCategories, key = { it.id }) { category ->
+                        CategoryPill(
+                            category = category,
+                            selected = category.id == uiState.selectedCategoryId,
+                            onClick = { onCategorySelected(category.id) }
                         )
                     }
                 }
             }
+            item(key = "content-spacer") { Spacer(Modifier.height(16.dp)) }
         }
 
-        Spacer(Modifier.height(32.dp))
+        when {
+            uiState.isLoading -> item(key = "loading") { ExploreLoading() }
+
+            !uiState.hasAnySource -> item(key = "no-source") { ExploreNoSource() }
+
+            else -> {
+                // Trending — chỉ khi không search
+                if (uiState.searchQuery.isBlank() && uiState.trendingArticles.isNotEmpty()) {
+                    item(key = "trending") {
+                        TrendingTopicsSection(
+                            articles = uiState.trendingArticles,
+                            onSeeAllClick = {
+                                // TODO(all-articles-screen)
+                            },
+                            onArticleClick = onArticleClick
+                        )
+                    }
+                    item(key = "trending-spacer") { Spacer(Modifier.height(16.dp)) }
+                }
+
+                item(key = "filter-badges") {
+                    FilterBadgesRow(resultCount = uiState.filteredArticles.size)
+                }
+
+                item(key = "results-spacer") { Spacer(Modifier.height(12.dp)) }
+
+                if (uiState.visibleArticles.isEmpty()) {
+                    item(key = "empty") {
+                        ExploreEmpty(
+                            query = uiState.searchQuery,
+                            onClearSearch = { onQueryChange("") }
+                        )
+                    }
+                } else {
+                    items(items = uiState.visibleArticles, key = { it.id }) { article ->
+                        SearchResultItem(
+                            article = article,
+                            keyword = uiState.searchQuery,
+                            bookmarked = uiState.bookmarkedIds.contains(article.id),
+                            onBookmarkToggle = { bookmarked ->
+                                onBookmarkToggle(article, bookmarked)
+                            },
+                            onShareClick = {
+                                // TODO(share)
+                            },
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
+                            onClick = { onArticleClick(article.id) }
+                        )
+                    }
+
+                    item(key = "results-end-spacer") { Spacer(Modifier.height(16.dp)) }
+
+                    if (uiState.hasMore) {
+                        item(key = "load-more") {
+                            LoadMoreButton(
+                                remainingCount = uiState.remainingCount,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                onClick = onLoadMore
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        item(key = "bottom-spacer") { Spacer(Modifier.height(32.dp)) }
     }
 }
 
