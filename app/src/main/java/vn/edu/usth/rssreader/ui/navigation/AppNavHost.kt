@@ -37,13 +37,21 @@ private const val ARTICLE_ROUTE = "article/{articleId}"
 private fun tabIndex(route: String?): Int =
     Destination.entries.indexOfFirst { it.route == route }.takeIf { it >= 0 } ?: 0
 
-private fun AnimatedContentTransitionScope<NavBackStackEntry>.tabEnter(): EnterTransition {
+private fun isArticleRoute(route: String?): Boolean = route?.startsWith("article/") == true
+
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.screenEnter(): EnterTransition {
+    if (isArticleRoute(targetState.destination.route)) {
+        return slideInHorizontally(tween(TAB_ANIM_MS)) { it } + fadeIn(tween(TAB_ANIM_MS))
+    }
     val forward = tabIndex(targetState.destination.route) >= tabIndex(initialState.destination.route)
     val offset: (Int) -> Int = if (forward) ({ it }) else ({ -it })
     return slideInHorizontally(tween(TAB_ANIM_MS), offset) + fadeIn(tween(TAB_ANIM_MS))
 }
 
-private fun AnimatedContentTransitionScope<NavBackStackEntry>.tabExit(): ExitTransition {
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.screenExit(): ExitTransition {
+    if (isArticleRoute(targetState.destination.route)) {
+        return slideOutHorizontally(tween(TAB_ANIM_MS)) { -it } + fadeOut(tween(TAB_ANIM_MS))
+    }
     val forward = tabIndex(targetState.destination.route) >= tabIndex(initialState.destination.route)
     val offset: (Int) -> Int = if (forward) ({ -it }) else ({ it })
     return slideOutHorizontally(tween(TAB_ANIM_MS), offset) + fadeOut(tween(TAB_ANIM_MS))
@@ -83,8 +91,8 @@ fun AppNavHost(
             navController = navController,
             startDestination = Destination.HOME.route,
             modifier = Modifier.padding(if (isArticleDetail) PaddingValues() else innerPadding),
-            enterTransition = { tabEnter() },
-            exitTransition = { tabExit() },
+            enterTransition = { screenEnter() },
+            exitTransition = { screenExit() },
             // Pops only happen when leaving a detail route, so the returning
             // screen always comes from the left.
             popEnterTransition = {
@@ -118,19 +126,7 @@ fun AppNavHost(
             }
             composable(
                 route = ARTICLE_ROUTE,
-                arguments = listOf(navArgument("articleId") { type = NavType.StringType }),
-                enterTransition = {
-                    slideInHorizontally(tween(TAB_ANIM_MS)) { it } + fadeIn(tween(TAB_ANIM_MS))
-                },
-                exitTransition = {
-                    slideOutHorizontally(tween(TAB_ANIM_MS)) { -it } + fadeOut(tween(TAB_ANIM_MS))
-                },
-                popEnterTransition = {
-                    slideInHorizontally(tween(TAB_ANIM_MS)) { -it } + fadeIn(tween(TAB_ANIM_MS))
-                },
-                popExitTransition = {
-                    slideOutHorizontally(tween(TAB_ANIM_MS)) { it } + fadeOut(tween(TAB_ANIM_MS))
-                }
+                arguments = listOf(navArgument("articleId") { type = NavType.StringType })
             ) { entry ->
                 ArticleDetailScreen(
                     articleId = entry.arguments?.getString("articleId").orEmpty(),
