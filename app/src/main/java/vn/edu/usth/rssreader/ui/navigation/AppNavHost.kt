@@ -118,6 +118,12 @@ fun AppNavHost(
                 },
                 exitTransition = {
                     slideOutHorizontally(tween(TAB_ANIM_MS)) { -it } + fadeOut(tween(TAB_ANIM_MS))
+                },
+                popEnterTransition = {
+                    slideInHorizontally(tween(TAB_ANIM_MS)) { -it } + fadeIn(tween(TAB_ANIM_MS))
+                },
+                popExitTransition = {
+                    slideOutHorizontally(tween(TAB_ANIM_MS)) { it } + fadeOut(tween(TAB_ANIM_MS))
                 }
             ) { entry ->
                 ArticleDetailScreen(
