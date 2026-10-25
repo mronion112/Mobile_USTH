@@ -34,7 +34,7 @@ fun RssSource.toFetchStatusUi(
         )
 
         RssSourceStatus.FETCHING -> SourceFetchStatusUi(
-            label = "Đang cập nhật",
+            label = "Đang nạp dữ liệu…",
             lastFetchedLabel = lastFetchedLabel,
             errorMessage = null,
             isFetching = true,
