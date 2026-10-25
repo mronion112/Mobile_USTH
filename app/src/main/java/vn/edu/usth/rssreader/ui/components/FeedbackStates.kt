@@ -23,6 +23,7 @@ import androidx.compose.material.icons.outlined.Inbox
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -161,6 +162,9 @@ fun ErrorState(
     onRetry: () -> Unit,
     modifier: Modifier = Modifier,
     retryLabel: String = "Thử lại",
+    secondaryActionLabel: String? = null,
+    onSecondaryAction: (() -> Unit)? = null,
+    note: String? = null,
 ) {
     StateMessage(
         modifier = modifier,
@@ -176,6 +180,9 @@ fun ErrorState(
         message = message,
         actionLabel = retryLabel,
         onAction = onRetry,
+        secondaryActionLabel = secondaryActionLabel,
+        onSecondaryAction = onSecondaryAction,
+        note = note,
     )
 }
 
@@ -187,6 +194,9 @@ private fun StateMessage(
     actionLabel: String?,
     onAction: (() -> Unit)?,
     modifier: Modifier = Modifier,
+    secondaryActionLabel: String? = null,
+    onSecondaryAction: (() -> Unit)? = null,
+    note: String? = null,
 ) {
     Column(
         modifier = modifier
@@ -230,6 +240,30 @@ private fun StateMessage(
                     fontWeight = FontWeight.SemiBold,
                 )
             }
+        }
+        if (secondaryActionLabel != null && onSecondaryAction != null) {
+            Spacer(modifier = Modifier.height(8.dp))
+            OutlinedButton(
+                onClick = onSecondaryAction,
+                modifier = Modifier.heightIn(min = 44.dp),
+                shape = RoundedCornerShape(12.dp),
+            ) {
+                Text(
+                    text = secondaryActionLabel,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold,
+                )
+            }
+        }
+        note?.let {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = it,
+                color = MutedSlate,
+                fontSize = 12.sp,
+                lineHeight = 17.sp,
+                textAlign = TextAlign.Center,
+            )
         }
     }
 }
